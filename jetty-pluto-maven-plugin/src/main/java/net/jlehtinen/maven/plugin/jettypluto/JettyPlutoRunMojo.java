@@ -1,4 +1,4 @@
-package net.jlehtinen.maven.jettypluto;
+package net.jlehtinen.maven.plugin.jettypluto;
 
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
