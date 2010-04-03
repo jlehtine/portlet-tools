@@ -11,7 +11,7 @@ import org.mortbay.jetty.plugin.Jetty6RunMojo;
  * @extendsPlugin jetty
  * @goal run
  */
-public class JettyPlutoMojo extends Jetty6RunMojo {
+public class JettyPlutoRunMojo extends Jetty6RunMojo {
 
 	@Override
 	public void execute() throws MojoExecutionException, MojoFailureException {
