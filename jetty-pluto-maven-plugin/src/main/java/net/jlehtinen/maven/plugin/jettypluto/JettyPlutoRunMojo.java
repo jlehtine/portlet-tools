@@ -1,6 +1,8 @@
 package net.jlehtinen.maven.plugin.jettypluto;
 
 import java.io.File;
+import java.net.URL;
+import java.net.URLClassLoader;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -14,6 +16,7 @@ import org.apache.maven.artifact.resolver.ArtifactNotFoundException;
 import org.apache.maven.artifact.resolver.ArtifactResolutionException;
 import org.apache.maven.artifact.resolver.ArtifactResolver;
 import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.plugin.MojoFailureException;
 import org.mortbay.jetty.handler.ContextHandler;
 import org.mortbay.jetty.plugin.Jetty6RunMojo;
 import org.mortbay.jetty.security.HashUserRealm;
@@ -134,6 +137,22 @@ public class JettyPlutoRunMojo extends Jetty6RunMojo {
 	 */
 	protected ContextHandler plutoHandler;
 	
+	public void execute() throws MojoExecutionException, MojoFailureException {
+		getLog().info("Dumping JettyPlutoRunMojo classloader");
+		logClassLoader(getClass().getClassLoader());
+
+		// Configure this mojo
+		configureJettyPlutoRunMojo();
+
+		// Configure required portal libraries into the Jetty class path
+		configureJettyClassPath();
+		
+		// Create a context handler for Pluto portal
+		plutoHandler = createPlutoContextHandler();
+		
+		super.execute();
+	}
+
 	public ContextHandler[] getConfiguredContextHandlers() {
 		ContextHandler[] configuredHandlers = super.getConfiguredContextHandlers();
 		ContextHandler[] handlers;
@@ -146,22 +165,8 @@ public class JettyPlutoRunMojo extends Jetty6RunMojo {
 		return handlers;
 	}
 
-	public void finishConfigurationBeforeStart() throws Exception {
-		
-		// Configure this mojo
-		configureJettyPlutoRunMojo();
-		
-		// Configure required portal libraries into the Jetty class path
-		configureJettyClassPath();
-		
-		// Create a context handler for Pluto portal
-		plutoHandler = createPlutoContextHandler();
-		
-		super.finishConfigurationBeforeStart();
-	}
-
 	protected void configureJettyPlutoRunMojo() throws MojoExecutionException {
-		
+	
 		// Resolve portal implementation WAR if necessary
 		if (plutoWar == null) {
 			plutoWar = resolveArtifact(
@@ -221,23 +226,44 @@ public class JettyPlutoRunMojo extends Jetty6RunMojo {
 		
 		// Preserve existing class path entries, if any
 		String jettyClassPath = System.getProperty(JETTY_CLASS_PATH_PROPERTY);
-		StringBuffer cp = new StringBuffer(jettyClassPath != null ? jettyClassPath : "");
+		StringBuffer cpb = new StringBuffer(jettyClassPath != null ? jettyClassPath : "");
 		
 		// Resolve each library and add it to the class path
 		Iterator iter = portalLibraries.iterator();
 		while (iter.hasNext()) {
-			
+
+			/*
 			// Append library to the class path
-			if (cp.length() > 0) {
-				cp.append(System.getProperty("path.separator"));
+			if (cpb.length() > 0) {
+				cpb.append(System.getProperty("path.separator"));
 			}
-			cp.append(((Library) iter.next()).getJar());
+			cpb.append(((Library) iter.next()).getJar());
+			*/
+
+			// Add library to the mojo class loader
+			String jar = ((Library) iter.next()).getJar();
+			ClassLoader cl = getClass().getClassLoader();
+			if (cl != null && cl instanceof URLClassLoader) {
+				ReflectionWrapper wcl = new ReflectionWrapper(cl);
+				try {
+					wcl.invokeMethod("addURL", new Class[] { URL.class }, new Object[] { new File(jar).toURI().toURL() });
+				} catch (Throwable t) {
+					throw new MojoExecutionException(MessageFormat.format("Failed to add jar {0} to the path of the class loader using reflection", new Object[] { jar }));
+				}
+			} else {
+				throw new MojoExecutionException("Can not modify class loader, even via reflection");
+			}
+			
 		}
+		String cp = cpb.toString();
+		getLog().info(MessageFormat.format("Jetty class path = {0}", new Object[] { cp }));
+		
+		
 		
 		// Set the Jetty class path system property
-		String cps = cp.toString();
-		System.setProperty(JETTY_CLASS_PATH_PROPERTY, cps);
-		getLog().info(MessageFormat.format("Jetty class path = {0}", new Object[] { cps }));
+		/*
+		System.setProperty(JETTY_CLASS_PATH_PROPERTY, cp);
+		*/
 	}
 
 	/**
@@ -246,7 +272,7 @@ public class JettyPlutoRunMojo extends Jetty6RunMojo {
 	 * @return context handler for Pluto
 	 * @throws Exception on error
 	 */
-	protected ContextHandler createPlutoContextHandler() throws Exception {
+	protected ContextHandler createPlutoContextHandler() {
 
 		// Log some basic configuration
 		getLog().info(MessageFormat.format("Pluto context path = {0}", new Object[] { plutoContextPath }));
@@ -257,8 +283,8 @@ public class JettyPlutoRunMojo extends Jetty6RunMojo {
 		plutoHandler.setContextPath(plutoContextPath);
 		plutoHandler.setWar(plutoWar);
 		plutoHandler.setExtractWAR(false);
-		HashUserRealm userRealm = new HashUserRealm(plutoRealmName, plutoRealmConfig);
-		plutoHandler.getSecurityHandler().setUserRealm(userRealm);
+		//HashUserRealm userRealm = new HashUserRealm(plutoRealmName, plutoRealmConfig);
+		//plutoHandler.getSecurityHandler().setUserRealm(userRealm);
 		return plutoHandler;
 	}
 
@@ -306,5 +332,14 @@ public class JettyPlutoRunMojo extends Jetty6RunMojo {
     		throw new MojoExecutionException(MessageFormat.format("Could not resolve artifact {0}", new Object[] { artifact }), e);
     	}
     	return new File(localRepository.getBasedir(), localRepository.pathOf(artifact)).getPath();
+    }
+    
+    protected void logClassLoader(ClassLoader cl) {
+    	getLog().info("START OF CLASS LOADERS");
+    	while (cl != null) {
+    		getLog().info("[" + cl.getClass().getName() + "] " + cl.toString());
+    		cl = cl.getParent();
+    	}
+    	getLog().info("END OF CLASS LOADERS");
     }
 }
