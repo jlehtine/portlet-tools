@@ -13,7 +13,6 @@ import org.mortbay.jetty.plugin.Jetty6RunMojo;
  */
 public class JettyPlutoRunMojo extends Jetty6RunMojo {
 
-	@Override
 	public void execute() throws MojoExecutionException, MojoFailureException {
 		
 		// TODO: Deploy Pluto to Jetty
