@@ -28,13 +28,12 @@ import org.mortbay.jetty.webapp.WebAppContext;
  * 
  * @extendsPlugin jetty
  * @goal run
- * @requiresProject
+ * @description Runs the Pluto portal under Jetty directly on a Maven portlet project
  */
 public class JettyPlutoRunMojo extends Jetty6RunMojo {
 
+	/** Pluto group identifier */
 	protected static final String PLUTO_GROUP_ID = "org.apache.portals.pluto";
-	
-	protected static final String JETTY_CLASS_PATH_PROPERTY = "jetty.class.path";
 	
 	/**
 	 * Artifact resolver
@@ -68,64 +67,85 @@ public class JettyPlutoRunMojo extends Jetty6RunMojo {
      */
     protected List remoteRepositories;
 
+    /**
+     * <p>Portal implementation to use. By default the Pluto portal implementation is
+     * used but this parameter can be used to override it. While this plugin is Pluto dependent,
+     * this parameter may be used, for example, to specify a customized Pluto based portal.</p>
+     * 
+     * <p>You can either specify a Maven artifact using <code>groupId</code>,
+     * <code>artifactId</code> and <code>version</code>, or a direct path to the WAR
+     * using <code>file</code>.</p>
+     * 
+     * <p>The following example demonstrates how to use Maven artifact resolution:</p>
+     * 
+     * <pre>
+     * &lt;portal>
+     *   &lt;groupId>org.apache.portals.pluto&lt;/groupId>
+     *   &lt;artifactId>pluto-portal&lt;/artifactId>
+     *   &lt;version>2.0.0&lt;/version>
+     *   &lt;type>war&lt;/type>
+     * &lt;/portal>
+     * </pre>
+     * 
+     * @parameter
+     */
+    protected ArtifactIdentity portal;
+    
 	/**
-	 * Group identifier of the Pluto implementation to be used. Used to resolve the Pluto WAR
-	 * when no explicit WAR path is defined.
-	 * 
-	 * @parameter expression="${pluto.groupId}" default-value="org.apache.portals.pluto"
-	 */
-	protected String plutoGroupId;
-
-	/**
-	 * Artifact identifier of the Pluto portal implementation to be used. Used to resolve the
-	 * Pluto WAR when no explicit WAR path is defined.
-	 * 
-	 * @parameter expression="${pluto.artifactId}" default-value="pluto-portal"
-	 */
-	protected String plutoArtifactId;
-	
-	/**
-	 * Version of the Pluto portal implementation to be used. Used to resolve the Pluto WAR
-	 * when no explicit WAR path is defined.
-	 * 
-	 * @parameter expression="${pluto.version}" default-value="2.0.0"
-	 */
-	protected String plutoVersion;
-
-	/**
-	 * Absolute path to the Pluto WAR, overriding parameters <code>plutoGroupId</code>,
-	 * <code>plutoArtifactId</code> and <code>plutoVersion</code>.
-	 * 
-	 * @parameter expression="${pluto.war}"
-	 */
-	protected String plutoWar;
-	
-	/**
-	 * Portal libraries to be installed into the shared class path.
+	 * <p>Portal libraries to be installed into the shared class path.
 	 * By default the libraries needed by the Pluto portal implementation
 	 * are included but this parameter can be used to override the default
-	 * set of libraries.
+	 * set of libraries.</p>
+	 * 
+	 * <p>Each library can be specified either as a Maven artifact using <code>groupId</code>,
+	 * <code>artifactId</code> and <code>version</code>, or as a direct path to the JAR
+	 * using <code>file</code>.</p>
+	 * 
+	 * <p>The following example demonstrates both kinds of library referrals:</p>
+	 * 
+	 * <pre>
+	 * &lt;portalLibraries>
+	 *   &lt;library>
+	 *     &lt;groupId>org.apache.portals.pluto&lt;/groupId>
+	 *     &lt;artifactId>pluto-container-api&lt;/artifactId>
+	 *     &lt;version>2.0.0&lt;/version>
+	 *     &lt;type>jar&lt;/type>
+	 *   &lt;/library>
+	 *   &lt;library>
+	 *     &lt;file>/opt/j2ee/libs/portlet-api-2.0.jar&lt;/file>
+	 *   &lt;/library>
+	 * &lt;/portalLibraries>
+	 * </pre>
 	 * 
 	 * @parameter
 	 */
 	protected List portalLibraries;
 	
 	/**
-	 * Context path for the Pluto portal implementation.
+	 * Version of the Pluto portal implementation to be used. This only affects the
+	 * default portal implementation and the default portal libraries if they have not
+	 * been explicitly specified using <code>portal</code> and <code>portalLibraries</code>.
+	 * 
+	 * @parameter expression="${pluto.version}" default-value="2.0.0"
+	 */
+	protected String plutoVersion;
+	
+	/**
+	 * Context path for the portal implementation.
 	 * 
 	 * @parameter expression="${pluto.contextPath}" default-value="/pluto"
 	 */
 	protected String plutoContextPath;
 
 	/**
-	 * Name of the Pluto user realm.
+	 * Name of the user realm.
 	 * 
 	 * @parameter expression="${pluto.realm.name}" default-value="Pluto Realm"
 	 */
 	protected String plutoRealmName;
 	
 	/**
-	 * Pluto user realm configuration file in the Jetty {@link HashUserRealm} format.
+	 * User realm configuration file in the Jetty {@link HashUserRealm} format.
 	 * 
 	 * @parameter expression="${pluto.realm.config}"
 	 * @required
@@ -137,15 +157,16 @@ public class JettyPlutoRunMojo extends Jetty6RunMojo {
 	 */
 	protected ContextHandler plutoHandler;
 	
+	/**
+	 * @see org.apache.maven.plugin.Mojo#execute()
+	 */
 	public void execute() throws MojoExecutionException, MojoFailureException {
-		getLog().info("Dumping JettyPlutoRunMojo classloader");
-		logClassLoader(getClass().getClassLoader());
 
 		// Configure this mojo
 		configureJettyPlutoRunMojo();
 
 		// Configure required portal libraries into the Jetty class path
-		configureJettyClassPath();
+		configureClassPath();
 		
 		// Create a context handler for Pluto portal
 		plutoHandler = createPlutoContextHandler();
@@ -153,6 +174,13 @@ public class JettyPlutoRunMojo extends Jetty6RunMojo {
 		super.execute();
 	}
 
+	/**
+	 * Overrides the Jetty plugin method to add the portal context handler
+	 * into the list of handlers.
+	 * 
+	 * @return configured context handlers and the portal context handler
+	 * @see org.mortbay.jetty.plugin.Jetty6RunMojo#getConfiguredContextHandlers()
+	 */
 	public ContextHandler[] getConfiguredContextHandlers() {
 		ContextHandler[] configuredHandlers = super.getConfiguredContextHandlers();
 		ContextHandler[] handlers;
@@ -165,13 +193,21 @@ public class JettyPlutoRunMojo extends Jetty6RunMojo {
 		return handlers;
 	}
 
+	/**
+	 * Completes the configuration of this mojo.
+	 * 
+	 * @throws MojoExecutionException on error
+	 */
 	protected void configureJettyPlutoRunMojo() throws MojoExecutionException {
 	
+		// Initialize the default portal implementation, if necessary
+		if (portal == null) {
+			portal = createDefaultPortal();
+		}
+		
 		// Resolve portal implementation WAR if necessary
-		if (plutoWar == null) {
-			plutoWar = resolveArtifact(
-					createArtifact(plutoGroupId, plutoArtifactId, plutoVersion, "war")
-			);
+		if (portal.getFile() == null) {
+			portal.setFile(resolveArtifact(createArtifact(portal)));
 		}
 		
 		// Validate the user-specified libraries
@@ -198,20 +234,34 @@ public class JettyPlutoRunMojo extends Jetty6RunMojo {
 		// Initialize the default set of portal libraries, if necessary
 		if (portalLibraries == null) {
 			portalLibraries = new ArrayList();
-			addDefaultPortalLibraries();
+			addDefaultPortalLibraries(portalLibraries);
 		}
 
 		// Resolve the libraries
 		Iterator iter = portalLibraries.iterator();
 		while (iter.hasNext()) {
 			Library l = (Library) iter.next();
-			if (l.getJar() == null) {
-				l.setJar(resolveArtifact(createArtifact(l)));
+			if (l.getFile() == null) {
+				l.setFile(resolveArtifact(createArtifact(l)));
 			}
 		}
 	}
 	
-	protected void addDefaultPortalLibraries() {
+	/**
+	 * Creates the artifact identity for the default portal implementation.
+	 * 
+	 * @return artifact identity for the default portal implementation
+	 */
+	protected ArtifactIdentity createDefaultPortal() {
+		return new ArtifactIdentity(PLUTO_GROUP_ID, "pluto-portal", plutoVersion, "war");
+	}
+	
+	/**
+	 * Adds the default set of portal libraries to the specified list.
+	 * 
+	 * @param portalLibraries list of portal libraries
+	 */
+	protected void addDefaultPortalLibraries(List portalLibraries) {
 		portalLibraries.add(new Library("org.apache.portals", "portlet-api_2.0_spec", "1.0"));
 		portalLibraries.add(new Library(PLUTO_GROUP_ID, "pluto-container-api", plutoVersion));
 		portalLibraries.add(new Library(PLUTO_GROUP_ID, "pluto-container-driver-api", plutoVersion));
@@ -222,31 +272,20 @@ public class JettyPlutoRunMojo extends Jetty6RunMojo {
 	/**
 	 * Adds the portal libraries to the shared Jetty class path.
 	 */
-	protected void configureJettyClassPath() throws MojoExecutionException {
-		
-		// Preserve existing class path entries, if any
-		String jettyClassPath = System.getProperty(JETTY_CLASS_PATH_PROPERTY);
-		StringBuffer cpb = new StringBuffer(jettyClassPath != null ? jettyClassPath : "");
+	protected void configureClassPath() throws MojoExecutionException {
 		
 		// Resolve each library and add it to the class path
 		Iterator iter = portalLibraries.iterator();
 		while (iter.hasNext()) {
 
-			/*
-			// Append library to the class path
-			if (cpb.length() > 0) {
-				cpb.append(System.getProperty("path.separator"));
-			}
-			cpb.append(((Library) iter.next()).getJar());
-			*/
-
 			// Add library to the mojo class loader
-			String jar = ((Library) iter.next()).getJar();
+			String jar = ((Library) iter.next()).getFile();
 			ClassLoader cl = getClass().getClassLoader();
 			if (cl != null && cl instanceof URLClassLoader) {
 				ReflectionWrapper wcl = new ReflectionWrapper(cl);
 				try {
 					wcl.invokeMethod("addURL", new Class[] { URL.class }, new Object[] { new File(jar).toURI().toURL() });
+					getLog().info(MessageFormat.format("Added to shared class path: {0}", new Object[] { jar }));
 				} catch (Throwable t) {
 					throw new MojoExecutionException(MessageFormat.format("Failed to add jar {0} to the path of the class loader using reflection", new Object[] { jar }));
 				}
@@ -255,15 +294,6 @@ public class JettyPlutoRunMojo extends Jetty6RunMojo {
 			}
 			
 		}
-		String cp = cpb.toString();
-		getLog().info(MessageFormat.format("Jetty class path = {0}", new Object[] { cp }));
-		
-		
-		
-		// Set the Jetty class path system property
-		/*
-		System.setProperty(JETTY_CLASS_PATH_PROPERTY, cp);
-		*/
 	}
 
 	/**
@@ -275,13 +305,13 @@ public class JettyPlutoRunMojo extends Jetty6RunMojo {
 	protected ContextHandler createPlutoContextHandler() {
 
 		// Log some basic configuration
-		getLog().info(MessageFormat.format("Pluto context path = {0}", new Object[] { plutoContextPath }));
-		getLog().info(MessageFormat.format("Pluto WAR = {0}", new Object[] { plutoWar }));
+		getLog().info(MessageFormat.format("Portal context path = {0}", new Object[] { plutoContextPath }));
+		getLog().info(MessageFormat.format("Portal WAR = {0}", new Object[] { portal.getFile() }));
 
 		// Create context handler
 		WebAppContext plutoHandler = new WebAppContext();
 		plutoHandler.setContextPath(plutoContextPath);
-		plutoHandler.setWar(plutoWar);
+		plutoHandler.setWar(portal.getFile());
 		plutoHandler.setExtractWAR(false);
 		//HashUserRealm userRealm = new HashUserRealm(plutoRealmName, plutoRealmConfig);
 		//plutoHandler.getSecurityHandler().setUserRealm(userRealm);
@@ -334,12 +364,4 @@ public class JettyPlutoRunMojo extends Jetty6RunMojo {
     	return new File(localRepository.getBasedir(), localRepository.pathOf(artifact)).getPath();
     }
     
-    protected void logClassLoader(ClassLoader cl) {
-    	getLog().info("START OF CLASS LOADERS");
-    	while (cl != null) {
-    		getLog().info("[" + cl.getClass().getName() + "] " + cl.toString());
-    		cl = cl.getParent();
-    	}
-    	getLog().info("END OF CLASS LOADERS");
-    }
 }

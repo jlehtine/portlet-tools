@@ -1,38 +1,39 @@
 package net.jlehtinen.maven.plugin.jettypluto;
 
-import java.io.File;
-import java.text.MessageFormat;
-
 import org.apache.maven.plugin.MojoExecutionException;
 
+/**
+ * Container for library artifact identity information. Mostly exists to be able use proper
+ * element name in configuration.
+ */
 public class Library extends ArtifactIdentity {
 	
-	protected String jar;
-	
+	/**
+	 * Constructs a new uninitialized instance.
+	 */
 	public Library() {
+		super();
 	}
 	
+	/**
+	 * Constructs a new instance and initializes it with the specified data.
+	 * 
+	 * @param groupId group identifier
+	 * @param artifactId artifact identifier
+	 * @param version version number
+	 */
 	public Library(String groupId, String artifactId, String version) {
 		super(groupId, artifactId, version, "jar");
 	}
 
-	public String getJar() {
-		return jar;
-	}
-
-	public void setJar(String jar) {
-		this.jar = jar;
-	}
-
+	/**
+	 * @see ArtifactIdentity#validate()
+	 */
 	public void validate() throws MojoExecutionException {
-		if (jar == null) {
-			super.validate();
+		super.validate();
+		if (file == null) {
 			if (!"jar".equals(getType())) {
 				throw new MojoExecutionException("type must be jar");
-			}
-		} else {
-			if (!(new File(jar).exists())) {
-				throw new MojoExecutionException(MessageFormat.format("file {0} does not exist", new Object[] { jar }));
 			}
 		}
 	}
