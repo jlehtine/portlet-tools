@@ -17,8 +17,6 @@
 package net.jlehtinen.jettypluto.portal;
 
 import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.servlet.ServletContext;
 
@@ -79,6 +77,7 @@ public class PortletPrototypingRenderConfigService extends RenderConfigServiceIm
 		// Configure prototyping page, if any portlets defined
 		if (parsedPortletNames.length > 0) {
 			portletPrototypingPage = createPortletPrototypingPageConfig(portletContext, parsedPortletNames);
+			addPage(portletPrototypingPage);
 		}
 		
 		logger.info(MessageFormat.format("Configured {0} prototype portlets", new Object[] { new Integer(parsedPortletNames.length) }));
@@ -101,30 +100,4 @@ public class PortletPrototypingRenderConfigService extends RenderConfigServiceIm
 		return config;
 	}
 	
-	public PageConfig getDefaultPage() {
-		if (portletPrototypingPage != null) {
-			return portletPrototypingPage;
-		} else {
-			return super.getDefaultPage();
-		}
-	}
-
-	public PageConfig getPage(String id) {
-		if (portletPrototypingPage != null && PORTLET_PAGE_ID.equals(id)) {
-			return portletPrototypingPage;
-		} else {
-			return super.getPage(id);
-		}
-	}
-
-	public List getPages() {
-		if (portletPrototypingPage != null) {
-			List pages = new ArrayList(super.getPages());
-			pages.add(0, portletPrototypingPage);
-			return pages;
-		} else {
-			return super.getPages();
-		}
-	}
-
 }
