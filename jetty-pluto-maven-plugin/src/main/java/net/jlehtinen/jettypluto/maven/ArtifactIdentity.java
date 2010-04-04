@@ -1,4 +1,4 @@
-package net.jlehtinen.maven.plugin.jettypluto;
+package net.jlehtinen.jettypluto.maven;
 
 /*
  * Copyright (c) 2010 Johannes Lehtinen

@@ -1,4 +1,4 @@
-package net.jlehtinen.maven.plugin.jettypluto;
+package net.jlehtinen.jettypluto.maven;
 
 import java.security.Principal;
 import java.util.HashSet;

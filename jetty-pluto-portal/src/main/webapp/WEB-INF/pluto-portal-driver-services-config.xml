@@ -108,7 +108,7 @@ limitations under the License.
     </bean>
 
     <bean id="RenderConfigService"
-          class="org.apache.pluto.driver.services.impl.resource.RenderConfigServiceImpl"
+          class="net.jlehtinen.jettypluto.portal.PortletPrototypingRenderConfigService"
           singleton="true">
     </bean>
     

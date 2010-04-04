@@ -57,10 +57,6 @@ used as a testing portal for rapid portlet development.
         <listener-class>org.apache.pluto.driver.PortalStartupListener</listener-class>
     </listener>
 
-    <listener>
-        <listener-class>net.jlehtinen.jettypluto.portal.PortletPrototypeConfigurator</listener-class>
-    </listener>
-
     <servlet>
         <servlet-name>plutoPortalDriver</servlet-name>
         <display-name>Pluto Portal Driver</display-name>

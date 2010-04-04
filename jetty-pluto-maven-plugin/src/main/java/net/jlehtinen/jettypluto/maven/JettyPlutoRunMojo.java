@@ -1,4 +1,4 @@
-package net.jlehtinen.maven.plugin.jettypluto;
+package net.jlehtinen.jettypluto.maven;
 
 /*
  * Copyright (c) 2010 Johannes Lehtinen
@@ -65,38 +65,19 @@ public class JettyPlutoRunMojo extends Jetty6RunMojo {
 	/** Pluto group identifier */
 	protected static final String PLUTO_GROUP_ID = "org.apache.portals.pluto";
 	
-	/**
-	 * Artifact resolver
-	 * 
-	 * @component
-	 */
-	protected ArtifactResolver artifactResolver;
-
-	/**
-	 * Artifact factory
-	 * 
-	 * @component
-	 */
-	protected ArtifactFactory artifactFactory;
+	/** System property for the portlet names */
+	protected static final String PORTLET_NAMES_PROPERTY = "portletNames";
 	
-    /**
-     * Local repository
-     *
-     * @parameter expression="${localRepository}"
-     * @readonly
-     * @required
-     */
-    protected ArtifactRepository localRepository;
-
-    /**
-     * Remote repositories being used
-     *
-     * @parameter expression="${project.remoteArtifactRepositories}"
-     * @readonly
-     * @required
-     */
-    protected List remoteRepositories;
-
+	/** System property for the portlet context */
+	protected static final String PORTLET_CONTEXT_PATH_PROPERTY = "portletContextPath";
+	
+	/**
+	 * Specifies the names of the portlets to be prototyped under Pluto as a comma separated list.
+	 * 
+	 * @parameter expression="${portletNames}"
+	 */
+	protected String portletNames;
+	
     /**
      * <p>Portal implementation to use. By default a slightly modified Pluto portal implementation is
      * used but this parameter can be used to override it. For example, it is possible to create a
@@ -197,6 +178,38 @@ public class JettyPlutoRunMojo extends Jetty6RunMojo {
 	 */
 	protected String plutoRealmName;
 	
+	/**
+	 * Artifact resolver
+	 * 
+	 * @component
+	 */
+	protected ArtifactResolver artifactResolver;
+
+	/**
+	 * Artifact factory
+	 * 
+	 * @component
+	 */
+	protected ArtifactFactory artifactFactory;
+	
+    /**
+     * Local repository
+     *
+     * @parameter expression="${localRepository}"
+     * @readonly
+     * @required
+     */
+    protected ArtifactRepository localRepository;
+
+    /**
+     * Remote repositories being used
+     *
+     * @parameter expression="${project.remoteArtifactRepositories}"
+     * @readonly
+     * @required
+     */
+    protected List remoteRepositories;
+
 	/**
 	 * Context handler for the Pluto portal.
 	 */
@@ -325,6 +338,14 @@ public class JettyPlutoRunMojo extends Jetty6RunMojo {
 			if (l.getFile() == null) {
 				l.setFile(resolveArtifact(createArtifact(l)));
 			}
+		}
+		
+		// Pass the context path onwards in a system parameter
+		System.setProperty(PORTLET_CONTEXT_PATH_PROPERTY, getContextPath());
+		
+		// Pass the portlet identifiers onwards in a system parameter
+		if (portletNames != null && System.getProperty(PORTLET_NAMES_PROPERTY) == null) {
+			System.setProperty(PORTLET_NAMES_PROPERTY, portletNames);
 		}
 	}
 	
