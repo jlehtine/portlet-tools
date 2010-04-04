@@ -41,7 +41,6 @@ import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 import org.mortbay.jetty.handler.ContextHandler;
 import org.mortbay.jetty.plugin.Jetty6RunMojo;
-import org.mortbay.jetty.security.HashUserRealm;
 import org.mortbay.jetty.webapp.WebAppContext;
 
 /**
@@ -160,19 +159,32 @@ public class JettyPlutoRunMojo extends Jetty6RunMojo {
 	protected String plutoContextPath;
 
 	/**
-	 * Name of the user realm.
+	 * <p>List of users to be added in the user realm. By default a single user <code>pluto</cdoe>
+	 * with password <code>pluto</code> and role <code>pluto</code> is included in the
+	 * user realm but this parameter can be used to override user realm data.</p>
+	 * 
+	 * <p>The following example demonstrates the use of this parameter:</p>
+	 * 
+	 * <pre>
+	 * &lt;users>
+	 *   &lt;user>
+	 *     &lt;name>myuser&lt;/name>
+	 *     &lt;password>mypass&lt;/passsword>
+	 *     &lt;roles>myrole, admin&lt;/roles>
+	 *   &lt;/user>
+	 * &lt/users>
+	 * </pre>
+	 * 
+	 * @parameter
+	 */
+	protected List users;
+	
+	/**
+	 * Name of the user realm passed on to Pluto.
 	 * 
 	 * @parameter expression="${pluto.realm.name}" default-value="Pluto Realm"
 	 */
 	protected String plutoRealmName;
-	
-	/**
-	 * User realm configuration file in the Jetty {@link HashUserRealm} format.
-	 * 
-	 * @parameter expression="${pluto.realm.config}"
-	 * @required
-	 */
-	protected String plutoRealmConfig;
 	
 	/**
 	 * Context handler for the Pluto portal.
@@ -222,14 +234,13 @@ public class JettyPlutoRunMojo extends Jetty6RunMojo {
 	 */
 	protected void configureJettyPlutoRunMojo() throws MojoExecutionException {
 	
-		// Initialize the default portal implementation, if necessary
-		if (portal == null) {
-			portal = createDefaultPortal();
-		}
-		
-		// Resolve portal implementation WAR if necessary
-		if (portal.getFile() == null) {
-			portal.setFile(resolveArtifact(createArtifact(portal)));
+		// Validate the user-specified portal implementation
+		if (portal != null) {
+			try {
+				portal.validate();
+			} catch (MojoExecutionException e) {
+				throw new MojoExecutionException(MessageFormat.format("Invalid <portal> entry in configuration: {0}", new Object[] { e.getMessage() }));				
+			}
 		}
 		
 		// Validate the user-specified libraries
@@ -248,17 +259,54 @@ public class JettyPlutoRunMojo extends Jetty6RunMojo {
 				try {
 					l.validate();
 				} catch (MojoExecutionException e) {
-					throw new MojoExecutionException(MessageFormat.format("Invalid <library> entry in configuration: {0}",	new Object[] { e.getMessage() }));
+					throw new MojoExecutionException(MessageFormat.format("Invalid <library> entry in configuration: {0}", new Object[] { e.getMessage() }));
 				}
 			}
 		}
+		
+		// Validate the user-specified realm data
+		if (users != null) {
+			Iterator iter = users.iterator();
+			while (iter.hasNext()) {
+				
+				// Check that it is User
+				Object o = iter.next();
+				if (o == null || !(o instanceof User)) {
+					throw new MojoExecutionException("Configuration entries in <users> must be of type <user>");
+				}
+				User u = (User) o;
+				
+				// Validate contents
+				try {
+					u.validate();
+				} catch (MojoExecutionException e) {
+					throw new MojoExecutionException(MessageFormat.format("Invalid <user> entry in configuration: {0}",	new Object[] { e.getMessage() }));
+				}				
+			}
+		}
 
+		// Initialize the default portal implementation, if necessary
+		if (portal == null) {
+			portal = createDefaultPortal();
+		}
+		
 		// Initialize the default set of portal libraries, if necessary
 		if (portalLibraries == null) {
 			portalLibraries = new ArrayList();
 			addDefaultPortalLibraries(portalLibraries);
 		}
 
+		// Initialize the default set of users, if necessary
+		if (users == null) {
+			users = new ArrayList();
+			users.add(new User("pluto", "pluto", "pluto"));
+		}
+		
+		// Resolve portal implementation WAR if necessary
+		if (portal.getFile() == null) {
+			portal.setFile(resolveArtifact(createArtifact(portal)));
+		}
+		
 		// Resolve the libraries
 		Iterator iter = portalLibraries.iterator();
 		while (iter.hasNext()) {
@@ -335,8 +383,8 @@ public class JettyPlutoRunMojo extends Jetty6RunMojo {
 		plutoHandler.setContextPath(plutoContextPath);
 		plutoHandler.setWar(portal.getFile());
 		plutoHandler.setExtractWAR(false);
-		//HashUserRealm userRealm = new HashUserRealm(plutoRealmName, plutoRealmConfig);
-		//plutoHandler.getSecurityHandler().setUserRealm(userRealm);
+		Realm realm = new Realm(plutoRealmName, users);
+		plutoHandler.getSecurityHandler().setUserRealm(realm);
 		return plutoHandler;
 	}
 
