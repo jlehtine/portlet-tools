@@ -7,12 +7,37 @@
   <name>Jetty-Pluto Testing Portal</name>
   <description>Modified Pluto portal for testing selected portlets</description>
   <dependencies>
+    <dependency>
+        <groupId>javax.servlet</groupId>
+        <artifactId>servlet-api</artifactId>
+        <version>${servlet-api.version}</version>
+        <type>jar</type>
+        <scope>provided</scope>
+    </dependency>
   	<dependency>
   		<groupId>org.apache.portals.pluto</groupId>
   		<artifactId>pluto-portal</artifactId>
-  		<version>2.0.0</version>
+  		<version>${pluto.version}</version>
   		<type>war</type>
   		<scope>compile</scope>
   	</dependency>
+  	<dependency>
+  		<groupId>org.apache.portals.pluto</groupId>
+  		<artifactId>pluto-portal-driver</artifactId>
+  		<version>${pluto.version}</version>
+  		<type>jar</type>
+  		<scope>provided</scope>
+  	</dependency>
+  	<dependency>
+  		<groupId>org.apache.portals.pluto</groupId>
+  		<artifactId>pluto-portal-driver-impl</artifactId>
+  		<version>${pluto.version}</version>
+  		<type>jar</type>
+  		<scope>provided</scope>
+  	</dependency>
   </dependencies>
+  <properties>
+    <servlet-api.version>2.5</servlet-api.version>
+    <pluto.version>2.0.0</pluto.version>
+  </properties>
 </project>

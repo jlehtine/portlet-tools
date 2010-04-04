@@ -57,6 +57,10 @@ used as a testing portal for rapid portlet development.
         <listener-class>org.apache.pluto.driver.PortalStartupListener</listener-class>
     </listener>
 
+    <listener>
+        <listener-class>net.jlehtinen.jettypluto.portal.PortletPrototypeConfigurator</listener-class>
+    </listener>
+
     <servlet>
         <servlet-name>plutoPortalDriver</servlet-name>
         <display-name>Pluto Portal Driver</display-name>
@@ -154,18 +158,6 @@ used as a testing portal for rapid portlet development.
         <taglib-uri>http://portals.apache.org/pluto</taglib-uri>
         <taglib-location>/WEB-INF/tld/pluto.tld</taglib-location>
     </taglib>
-
-    <login-config>
-        <auth-method>FORM</auth-method>
-        <form-login-config>
-            <form-login-page>/login.jsp</form-login-page>
-            <form-error-page>/login.jsp?error=1</form-error-page>
-        </form-login-config>
-    </login-config>
-
-    <security-role>
-        <role-name>pluto</role-name>
-    </security-role>
 
 </web-app>
 
