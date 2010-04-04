@@ -53,6 +53,15 @@ import org.mortbay.jetty.webapp.WebAppContext;
  */
 public class JettyPlutoRunMojo extends Jetty6RunMojo {
 
+	/** Jetty-Pluto group identifier */
+	protected static final String JETTY_PLUTO_GROUP_ID = "net.jlehtinen";
+	
+	/** Jetty-Pluto portal identifier */
+	protected static final String JETTY_PLUTO_PORTAL_ID = "jetty-pluto-portal";
+	
+	/** Jetty-Pluto portal version */
+	protected static final String JETTY_PLUTO_PORTAL_VERSION = "0.1-SNAPSHOT";
+	
 	/** Pluto group identifier */
 	protected static final String PLUTO_GROUP_ID = "org.apache.portals.pluto";
 	
@@ -89,9 +98,10 @@ public class JettyPlutoRunMojo extends Jetty6RunMojo {
     protected List remoteRepositories;
 
     /**
-     * <p>Portal implementation to use. By default the Pluto portal implementation is
-     * used but this parameter can be used to override it. While this plugin is Pluto dependent,
-     * this parameter may be used, for example, to specify a customized Pluto based portal.</p>
+     * <p>Portal implementation to use. By default a slightly modified Pluto portal implementation is
+     * used but this parameter can be used to override it. For example, it is possible to create a
+     * customized portal style by creating a WAR overlay on the default portal and then specify
+     * the custom portal version using this parameter.</p>
      * 
      * <p>You can either specify a Maven artifact using <code>groupId</code>,
      * <code>artifactId</code> and <code>version</code>, or a direct path to the WAR
@@ -101,9 +111,9 @@ public class JettyPlutoRunMojo extends Jetty6RunMojo {
      * 
      * <pre>
      * &lt;portal>
-     *   &lt;groupId>org.apache.portals.pluto&lt;/groupId>
-     *   &lt;artifactId>pluto-portal&lt;/artifactId>
-     *   &lt;version>2.0.0&lt;/version>
+     *   &lt;groupId>net.jlehtinen&lt;/groupId>
+     *   &lt;artifactId>jetty-pluto-portal&lt;/artifactId>
+     *   &lt;version>0.1&lt;/version>
      *   &lt;packaging>war&lt;/packaging>
      * &lt;/portal>
      * </pre>
@@ -144,8 +154,9 @@ public class JettyPlutoRunMojo extends Jetty6RunMojo {
 	
 	/**
 	 * Version of the Pluto portal implementation to be used. This only affects the
-	 * default portal implementation and the default portal libraries if they have not
-	 * been explicitly specified using <code>portal</code> and <code>portalLibraries</code>.
+	 * default portal libraries if they have not been explicitly specified using
+	 * <code>portalLibraries</code>. To use a different version of the Pluto portal,
+	 * you have to specify a portal implementation using the <code>portal</code> parameter.
 	 * 
 	 * @parameter expression="${pluto.version}" default-value="2.0.0"
 	 */
@@ -323,7 +334,7 @@ public class JettyPlutoRunMojo extends Jetty6RunMojo {
 	 * @return artifact identity for the default portal implementation
 	 */
 	protected ArtifactIdentity createDefaultPortal() {
-		return new ArtifactIdentity(PLUTO_GROUP_ID, "pluto-portal", plutoVersion, "war");
+		return new ArtifactIdentity(JETTY_PLUTO_GROUP_ID, JETTY_PLUTO_PORTAL_ID, JETTY_PLUTO_PORTAL_VERSION, "war");
 	}
 	
 	/**
