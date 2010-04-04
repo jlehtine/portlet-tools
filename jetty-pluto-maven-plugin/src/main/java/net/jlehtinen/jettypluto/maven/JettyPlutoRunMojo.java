@@ -31,6 +31,8 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
+import net.jlehtinen.jettypluto.maven.util.ReflectionWrapper;
+
 import org.apache.maven.artifact.Artifact;
 import org.apache.maven.artifact.factory.ArtifactFactory;
 import org.apache.maven.artifact.repository.ArtifactRepository;
@@ -39,6 +41,8 @@ import org.apache.maven.artifact.resolver.ArtifactResolutionException;
 import org.apache.maven.artifact.resolver.ArtifactResolver;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
+import org.apache.pluto.util.assemble.AssemblerConfig;
+import org.apache.pluto.util.assemble.AssemblerFactory;
 import org.mortbay.jetty.handler.ContextHandler;
 import org.mortbay.jetty.plugin.Jetty6RunMojo;
 import org.mortbay.jetty.webapp.WebAppContext;
@@ -71,6 +75,22 @@ public class JettyPlutoRunMojo extends Jetty6RunMojo {
 	/** System property for the portlet context */
 	protected static final String PORTLET_CONTEXT_PATH_PROPERTY = "portletContextPath";
 	
+	/**
+	 * The portlet.xml file to be used. The default location is in ${basedir}/src/main/webapp/WEB-INF.
+	 * 
+	 * @parameter expression="${maven.war.portletxml}"
+	 */
+	protected File portletXml;
+	
+    /**
+     * The destination file into which an assembled version of the web.xml is written.
+     * 
+     * @parameter expression="${project.build.directory}/pluto-resources/web.xml"
+     * @readonly
+     * @required
+     */
+    private File webXmlDestination;
+
 	/**
 	 * Specifies the names of the portlets to be prototyped under Pluto as a comma separated list.
 	 * 
@@ -215,14 +235,17 @@ public class JettyPlutoRunMojo extends Jetty6RunMojo {
 	 */
 	protected ContextHandler plutoHandler;
 	
-	/**
-	 * @see org.apache.maven.plugin.Mojo#execute()
-	 */
+	/** The original web.xml file of the web application */
+	protected File originalWebXml;
+	
 	public void execute() throws MojoExecutionException, MojoFailureException {
 
 		// Configure this mojo
 		configureJettyPlutoRunMojo();
 
+		// Assemble portlets for Pluto
+		assemblePortlets();
+		
 		// Configure required portal libraries into the Jetty class path
 		configureClassPath();
 		
@@ -258,6 +281,33 @@ public class JettyPlutoRunMojo extends Jetty6RunMojo {
 	 */
 	protected void configureJettyPlutoRunMojo() throws MojoExecutionException {
 	
+		// Check which original web.xml should be used
+		originalWebXml = getWebXml();
+		if (originalWebXml == null) {
+			originalWebXml = getDefaultWebXml();
+		}
+		getLog().info(MessageFormat.format("Original web.xml = {0}", new Object[] { originalWebXml }));
+		
+		// Make Jetty use the assembled web.xml
+		configureJettyWebXml(webXmlDestination);
+		getLog().info(MessageFormat.format("Assembled web.xml = {0}", new Object[] { webXmlDestination }));
+		
+		// Initialize default portlet.xml location, if necessary
+		if (portletXml == null) {
+			portletXml = getDefaultPortletXml();
+		}
+		getLog().info(MessageFormat.format("Original portlet.xml = {0}", new Object[] { portletXml }));
+
+		// Check that web.xml exists
+		if (!originalWebXml.exists()) {
+			throw new MojoExecutionException(MessageFormat.format("Web application descriptor {0} does not exist", new Object[] { originalWebXml }));
+		}
+
+		// Check that portlet.xml exists
+		if (!portletXml.exists()) {
+			throw new MojoExecutionException(MessageFormat.format("Portlet descriptor {0} does not exist", new Object[] { portletXml }));
+		}
+		
 		// Validate the user-specified portal implementation
 		if (portal != null) {
 			try {
@@ -308,7 +358,7 @@ public class JettyPlutoRunMojo extends Jetty6RunMojo {
 				}				
 			}
 		}
-
+		
 		// Initialize the default portal implementation, if necessary
 		if (portal == null) {
 			portal = createDefaultPortal();
@@ -350,6 +400,34 @@ public class JettyPlutoRunMojo extends Jetty6RunMojo {
 	}
 	
 	/**
+	 * Returns the default web.xml file.
+	 * 
+	 * @return default web.xml file
+	 */
+	protected File getDefaultWebXml() {
+		return new File(new File(getWebAppSourceDirectory(), "WEB-INF"), "web.xml");
+	}
+	
+	/**
+	 * Returns the default portlet.xml file.
+	 * 
+	 * @return default portlet.xml file
+	 */
+	protected File getDefaultPortletXml() {
+		return new File(new File(getWebAppSourceDirectory(), "WEB-INF"), "portlet.xml");
+	}
+	
+    /**
+     * Configures the Jetty to use the assembled web.xml file.
+     */
+    protected void configureJettyWebXml(File jettyWebXml) {
+    	
+    	// Use reflection to set webXml parameter
+    	ReflectionWrapper thisRef = new ReflectionWrapper(this);
+    	thisRef.setFieldValue("webXml", jettyWebXml);
+    }
+	
+	/**
 	 * Creates the artifact identity for the default portal implementation.
 	 * 
 	 * @return artifact identity for the default portal implementation
@@ -369,6 +447,26 @@ public class JettyPlutoRunMojo extends Jetty6RunMojo {
 		portalLibraries.add(new Library(PLUTO_GROUP_ID, "pluto-container-driver-api", plutoVersion));
 		portalLibraries.add(new Library(PLUTO_GROUP_ID, "pluto-taglib", plutoVersion));
 		portalLibraries.add(new Library("javax.ccpp", "ccpp", "1.0"));
+	}
+	
+	/**
+	 * Assembles portlets so that they can be deployed to Pluto.
+	 */
+	protected void assemblePortlets() throws MojoExecutionException {
+		
+		// Create assembler configuration
+		AssemblerConfig assemblerConfig = new AssemblerConfig();
+		assemblerConfig.setWebappDescriptor(originalWebXml);
+		assemblerConfig.setPortletDescriptor(portletXml);
+		assemblerConfig.setDestination(webXmlDestination);
+		
+		// Assembler portlets
+		try {
+			AssemblerFactory.getFactory().createAssembler(assemblerConfig).assemble(assemblerConfig);
+		} catch (Exception e) {
+			throw new MojoExecutionException("Failed to assemble web application for Pluto", e);
+		}
+		getLog().info("Assembled web application for Pluto");
 	}
 	
 	/**
@@ -465,5 +563,4 @@ public class JettyPlutoRunMojo extends Jetty6RunMojo {
     	}
     	return new File(localRepository.getBasedir(), localRepository.pathOf(artifact)).getPath();
     }
-    
 }

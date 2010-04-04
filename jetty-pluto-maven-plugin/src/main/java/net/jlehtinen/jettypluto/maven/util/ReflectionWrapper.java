@@ -1,4 +1,4 @@
-package net.jlehtinen.jettypluto.maven;
+package net.jlehtinen.jettypluto.maven.util;
 
 /*
  * Copyright (c) 2010 Johannes Lehtinen
@@ -79,6 +79,33 @@ public class ReflectionWrapper {
 				}
 			}
 		});
+	}
+	
+	/**
+	 * Sets the value of the specified field in the wrapped object.
+	 * 
+	 * @param field name of the field
+	 * @param value value of the field
+	 */
+	public void setFieldValue(final String field, final Object value) {
+		AccessController.doPrivileged(new PrivilegedAction() {
+			public Object run() {
+				try {
+					Field f = getField(field);
+					f.setAccessible(true);
+					f.set(getWrappedObject(), value);
+					return null;
+				} catch (Throwable t) {
+					throw new RuntimeException(
+							MessageFormat.format(
+									"Failed to set field {0} of class {1} using reflection",
+									new Object[] { field, getWrappedObject().getClass().getName() }
+							),
+							t
+					);
+				}
+			}
+		});		
 	}
 	
 	/**
