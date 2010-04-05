@@ -17,6 +17,7 @@
 package net.jlehtinen.jettypluto.portal;
 
 import java.text.MessageFormat;
+import java.util.List;
 
 import javax.servlet.ServletContext;
 
@@ -25,6 +26,7 @@ import net.jlehtinen.jettypluto.portal.util.ReflectionWrapper;
 import org.apache.pluto.driver.services.impl.resource.RenderConfigServiceImpl;
 import org.apache.pluto.driver.services.impl.resource.ResourceConfig;
 import org.apache.pluto.driver.services.portal.PageConfig;
+import org.apache.pluto.driver.services.portal.RenderConfig;
 import org.apache.pluto.driver.services.portal.RenderConfigService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -84,13 +86,19 @@ public class PortletPrototypingRenderConfigService extends RenderConfigServiceIm
 			portletPrototypingPage = createPortletPrototypingPageConfig(portletContext, parsedPortletNames);
 			addPage(portletPrototypingPage);
 
-			// Make it the default page id using reflection
+			// Customize the page layout
 			try {
+				
+				// Look up the render configuration
 				ReflectionWrapper thisRef = new ReflectionWrapper(this);
 				ResourceConfig resourceConfig = (ResourceConfig) thisRef.getFieldValue("config");
-				resourceConfig.getRenderConfig().setDefaultPageId(PORTLET_PAGE_NAME);
+				RenderConfig renderConfig = resourceConfig.getRenderConfig();
+				
+				// Set the default page
+				renderConfig.setDefaultPageId(PORTLET_PAGE_NAME);
+				
 			} catch (Exception e) {
-				logger.error("Failed to set default page using reflection", e);
+				logger.warn("Failed to fine tune the page layout using reflection", e);
 			}
 		}
 		
