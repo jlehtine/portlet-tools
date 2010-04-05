@@ -4,9 +4,10 @@
   <artifactId>portlet-tools</artifactId>
   <version>1-SNAPSHOT</version>
   <packaging>pom</packaging>
-  <name>Portlet Development Tools</name>
-  <description>Tools for developing Java portlets</description>
+  <name>JL Portlet Tools</name>
+  <description>Tools for developing Java portlets.</description>
   <modules>
   	<module>jetty-pluto-maven-plugin</module>
+  	<module>jetty-pluto-portal</module>
   </modules>
 </project>
