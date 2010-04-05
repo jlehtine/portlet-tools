@@ -1,0 +1,51 @@
+ ------
+ Introduction
+ ------
+ Johannes Lehtinen
+ ------
+ 2010-04-05
+ ------
+
+
+Jetty-Pluto Maven Plugin
+
+  Runs the portlet or portlets being developed directly from the Maven source project
+  using the Jetty servlet container and the Apache Pluto portlet container. This
+  plugin is intended for rapid portlet development in Maven based projects.
+  
+  For more information on Jetty and Apache Pluto, see:
+  
+    * http://jetty.codehaus.org/jetty/
+
+    * http://portals.apache.org/pluto/
+
+  This plugin uses a {{{http://www.jlehtinen.net/portlet-tools/jetty-pluto-container/}modified version of the Pluto Portal}} as the prototyping portal.
+
+* Goals Overview
+
+  General information about the goals.
+
+  * {{{run.html}jetty-pluto:run}} Runs the portlet or portlets being developed under Jetty and Pluto
+
+* Usage
+
+  General instructions on how to use the Jetty-Pluto Maven Plugin can be found on the {{{usage.html}usage page}}.
+
+  If you feel like the plugin is missing a feature or has a defect, you can send feedback to the plugin developer
+  at {{{mailto:johannes.lehtinen@iki.fi}johannes.lehtinen@iki.fi}}. Please try to describe in your problem report
+  how to reproduce the problem. Attached sample projects are the best way to track down problems and
+  patches are of course welcome.
+  
+  Mailing lists and an an issue tracker will be made available if there is demand for them.
+
+  The source code is available from the {{{source-repository.html}source repository}}. 
+
+* Known bugs
+
+  * Portlet container is not restarted when web.xml or portlet.xml descriptors are modified.
+
+* Planned features
+
+  * Make it possible to associate a portal user with the prototyping session
+    and to configure user attributes so that user-related portlets can be
+    prototyped.

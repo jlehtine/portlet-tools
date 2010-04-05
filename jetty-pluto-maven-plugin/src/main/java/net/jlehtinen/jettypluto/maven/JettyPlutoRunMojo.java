@@ -41,8 +41,8 @@ import org.mortbay.jetty.plugin.Jetty6RunMojo;
 import org.mortbay.jetty.webapp.WebAppContext;
 
 /**
- * Run the portlet being developed in the Apache Pluto container under Jetty without the time
- * consuming deploy process.
+ * Runs the portlet or portlets being developed directly from the Maven source project
+ * using the Jetty servlet container and the Apache Pluto portlet container.
  * 
  * @extendsPlugin jetty
  * @goal run
@@ -85,9 +85,14 @@ public class JettyPlutoRunMojo extends Jetty6RunMojo {
     private File webXmlDestination;
 
 	/**
-	 * Specifies the names of the portlets to be prototyped under Pluto as a comma separated list.
+	 * <p>Specifies the names of the portlets to be prototyped under Pluto as a comma separated list.
+	 * The names must match exactly the name provided in the <code>portlet-name</code> element
+	 * of the portlet descriptor.</p>
+	 * 
+	 * <p>Example: <code>&lt;portletNames>MyPortlet,Another Portlet&lt;/portletNames></code></p>
 	 * 
 	 * @parameter expression="${portletNames}"
+	 * @required
 	 */
 	protected String portletNames;
 	
