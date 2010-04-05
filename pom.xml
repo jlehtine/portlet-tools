@@ -87,6 +87,17 @@
 	       </plugin>
 	   </plugins>
 	</reporting>
+	<build>
+	   <plugins>
+	       <plugin>
+	           <groupId>org.apache.maven.plugins</groupId>
+	           <artifactId>maven-release-plugin</artifactId>
+	           <configuration>
+	               <autoVersionSubmodules>true</autoVersionSubmodules>
+	           </configuration>
+	       </plugin>
+	   </plugins>
+	</build>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <servlet-api.version>2.5</servlet-api.version>
