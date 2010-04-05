@@ -47,8 +47,12 @@
 	<distributionManagement>
 		<repository>
 			<id>jlehtinen.net</id>
-			<url>scp://jlehtinen.net/home/jlehtine/repo.jlehtinen.net/</url>
+			<url>scp://jlehtinen.net/home/jlehtine/repo.jlehtinen.net/maven2/</url>
 		</repository>
+		<site>
+		    <id>jlehtinen.net</id>
+		    <url>scp://jlehtinen.net/home/jlehtine/jlehtinen.net/portal-tools/jetty-pluto-maven-plugin/</url>
+		</site>
 	</distributionManagement>
 	<developers>
 		<developer>
@@ -80,6 +84,7 @@
 	</build>
 	<reporting>
 		<plugins>
+            <!--
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-plugin-plugin</artifactId>
@@ -92,6 +97,7 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jxr-plugin</artifactId>
 			</plugin>
+              -->
 		</plugins>
 	</reporting>
 	<dependencies>

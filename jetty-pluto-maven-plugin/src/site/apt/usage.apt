@@ -1,3 +1,19 @@
+~~~
+~~~ Copyright 2010 Johannes Lehtinen 
+~~~ 
+~~~ Licensed under the Apache License, Version 2.0 (the "License");
+~~~ you may not use this file except in compliance with the License.
+~~~ You may obtain a copy of the License at
+~~~ 
+~~~   http://www.apache.org/licenses/LICENSE-2.0
+~~~ 
+~~~ Unless required by applicable law or agreed to in writing, software
+~~~ distributed under the License is distributed on an "AS IS" BASIS,
+~~~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+~~~ See the License for the specific language governing permissions and
+~~~ limitations under the License.
+~~~
+
  ------
  Usage
  ------
@@ -6,15 +22,43 @@
  2010-04-05
  ------
 
-
-Overview
+Usage
 
   Jetty-Pluto Maven Plugin is intended to be used with Maven based portlet
   development projects for rapid portlet development. It enables
-  on-the-fly prototyping of the portlet being developed withou
+  on-the-fly prototyping of the portlet being developed without
+  time consuming deploys to a full portal server.
 
-Repository Configuration
+* Repository Configuration
 
-  Jetty-Pluto Maven Plugin is available 
+  Jetty-Pluto Maven Plugin is currently available from the following
+  repository. In addition to the plugin itself, the plugin will also
+  use Maven's artifact resolver to look up additional resources from
+  this repository so you have to add the repository as a plugin
+  repositories and an ordinary repository. 
 
-Example
+  http://repo.jlehtinen.net/maven2/
+  
+  The following example shows how you can do this in the project pom.xml.
+  
+  +-----------------------------------------------------------------------
+  <project>
+    <repositories>
+    
+      <!-- Central repository -->
+      <repository>
+        <id>central</id>
+        <url>http://repo1.maven.org/maven2/</url>
+      </repository>
+
+      <!-- jlehtinen.net repository -->
+      <repository>
+        <id>jlehtinen.net</id>
+        <url>http://repo.jlehtinen.net/maven2/</url>
+      </repository>      
+      
+    </repositories>
+  </project>
+  +-----------------------------------------------------------------------
+
+* Example
