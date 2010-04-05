@@ -31,6 +31,12 @@
 	</description>
 	<url>http://www.jlehtinen.net/portlet-tools/jetty-pluto-maven-plugin/</url>
 	<build>
+        <resources>
+            <resource>
+                <directory>${basedir}/src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
 		<plugins>
 			<plugin>
 				<groupId>org.ops4j</groupId>

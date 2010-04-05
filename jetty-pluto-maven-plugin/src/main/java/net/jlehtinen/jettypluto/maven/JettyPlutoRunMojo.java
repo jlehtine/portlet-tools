@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Properties;
 
 import net.jlehtinen.jettypluto.maven.util.ReflectionWrapper;
 
@@ -59,9 +60,6 @@ public class JettyPlutoRunMojo extends Jetty6RunMojo {
 	
 	/** Jetty-Pluto portal identifier */
 	protected static final String JETTY_PLUTO_PORTAL_ID = "jetty-pluto-portal";
-	
-	/** Jetty-Pluto portal version */
-	protected static final String JETTY_PLUTO_PORTAL_VERSION = "0.1-SNAPSHOT";
 	
 	/** Pluto group identifier */
 	protected static final String PLUTO_GROUP_ID = "org.apache.portals.pluto";
@@ -438,8 +436,23 @@ public class JettyPlutoRunMojo extends Jetty6RunMojo {
 	 * 
 	 * @return artifact identity for the default portal implementation
 	 */
-	protected ArtifactIdentity createDefaultPortal() {
-		return new ArtifactIdentity(JETTY_PLUTO_GROUP_ID, JETTY_PLUTO_PORTAL_ID, JETTY_PLUTO_PORTAL_VERSION, "war");
+	protected ArtifactIdentity createDefaultPortal() throws MojoExecutionException {
+		
+		// Check version of this plugin
+		String version;
+		try {
+			Properties prop = new Properties();
+			prop.load(getClass().getResource("/net/jlehtinen/jettypluto/maven/version.properties").openStream());
+			version = prop.getProperty("version");
+		} catch (Exception e) {
+			throw new MojoExecutionException("Failed to read version information", e);
+		}
+		if (version == null) {
+			throw new MojoExecutionException("Version property not found");
+		}
+		
+		// Return the default portal
+		return new ArtifactIdentity(JETTY_PLUTO_GROUP_ID, JETTY_PLUTO_PORTAL_ID, version, "war");
 	}
 	
 	/**
