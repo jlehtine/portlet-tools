@@ -27,38 +27,115 @@ Usage
   Jetty-Pluto Maven Plugin is intended to be used with Maven based portlet
   development projects for rapid portlet development. It enables
   on-the-fly prototyping of the portlet being developed without
-  time consuming deploys to a full portal server.
+  time consuming deploys to a heavy-weight portal server.
+
+* Quick Start
+
+  To quickly try how it works, you can create a demonstration project using
+  the <<<net.jlehtinen:jetty-pluto-maven-archetype>>> archetype.
+  
++-------------------------------------------------------------------------
++-------------------------------------------------------------------------
+
+  Then execute the {{{run-mojo.html}jetty-pluto:run}} goal from within the created
+  project directory.
+
++-------------------------------------------------------------------------
+mvn jetty-pluto:run
++-------------------------------------------------------------------------
+
+  This will start up Jetty and Pluto at local port 8080, so you should be
+  able to contact to the prototyping portlet and the example portlet
+  by browsing to the following address.
+  
+  {{http://localhost:8080/pluto/}}
+
+  You can now edit the example JSPs and compile the classes while the
+  portal is running. The prototyping portal should restart and refresh
+  automatically within 10 seconds after changes. Alternatively, you can
+  manually stop and start it.  
 
 * Repository Configuration
 
-  Jetty-Pluto Maven Plugin is currently available from the following
-  repository. In addition to the plugin itself, the plugin will also
+  For now, Jetty-Pluto Maven Plugin is available in the following
+  custom repository. In addition to the plugin itself, the plugin will also
   use Maven's artifact resolver to look up additional resources from
-  this repository so you have to add the repository as a plugin
-  repositories and an ordinary repository. 
+  this repository so you have to add the repository in the list of plugin
+  repositories as well as in the main repository list. 
 
-  http://repo.jlehtinen.net/maven2/
+  <<<http://repo.jlehtinen.net/maven2/>>>
   
-  The following example shows how you can do this in the project pom.xml.
+  The following example shows how you can do this within the
+  <project> element of <<<pom.xml>>> or the <profile> element of
+  <<<settings.xml>>>.
   
-  +-----------------------------------------------------------------------
-  <project>
-    <repositories>
++-----------------------------------------------------------------------
+<!-- Repositories for dependencies -->
+<repositories>
+  
+  <!-- Central repository -->
+  <repository>
+    <id>central</id>
+    <url>http://repo1.maven.org/maven2/</url>
+  </repository>
+
+  <!-- jlehtinen.net repository -->
+  <repository>
+    <id>jlehtinen.net</id>
+    <url>http://repo.jlehtinen.net/maven2/</url>
+  </repository>      
     
-      <!-- Central repository -->
-      <repository>
-        <id>central</id>
-        <url>http://repo1.maven.org/maven2/</url>
-      </repository>
+</repositories>
 
-      <!-- jlehtinen.net repository -->
-      <repository>
-        <id>jlehtinen.net</id>
-        <url>http://repo.jlehtinen.net/maven2/</url>
-      </repository>      
-      
-    </repositories>
-  </project>
-  +-----------------------------------------------------------------------
+<!-- Repositories for plugins -->
+<pluginRepositories>
+  
+  <!-- Central repository -->
+  <repository>
+    <id>central</id>
+    <url>http://repo1.maven.org/maven2/</url>
+  </repository>
 
-* Example
+  <!-- jlehtinen.net repository -->
+  <repository>
+    <id>jlehtinen.net</id>
+    <url>http://repo.jlehtinen.net/maven2/</url>
+  </repository>      
+    
+</pluginRepositories>
++-----------------------------------------------------------------------
+
+* Plugin Configuration
+
+  You can configure the plugin statically for a selected set of portlets
+  within the project configuration. The following example shows how the
+  plugin can be configured to show two portlets, named <MyPortlet> and
+  <OtherPortlet> in the portlet descriptor.
+
++-------------------------------------------------------------------------
+<project>
+  ...
+  <build>
+    <plugins>
+      ...
+      <plugin>
+        <groupId>net.jlehtinen</groupId>
+        <artifactId>jetty-pluto-maven-plugin</artifactId>
+        <configuration>
+          <portletNames>MyPortlet,OtherPortlet</portletNames>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+</project>
++-------------------------------------------------------------------------
+
+  Alternatively, you may specify the portlets to be displayed
+  at runtime using the <portletNames> system property.
+
++-------------------------------------------------------------------------
+mvn jetty-pluto:run -DportletNames=MyPortlet,OtherPortlet
++-------------------------------------------------------------------------
+
+  Also check configuration options inherited from the
+  {{{http://docs.codehaus.org/display/JETTY/Maven+Jetty+Plugin}Maven Jetty Plugin}}.

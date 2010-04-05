@@ -42,7 +42,11 @@ import org.mortbay.jetty.webapp.WebAppContext;
 
 /**
  * Runs the portlet or portlets being developed directly from the Maven source project
- * using the Jetty servlet container and the Apache Pluto portlet container.
+ * using the Jetty servlet container and the Apache Pluto portlet container. Extends the
+ * <a href="http://docs.codehaus.org/display/JETTY/Maven+Jetty+Plugin"><code>maven-jetty-plugin</code></a>.
+ * Notice that in addition to parameters defined here, the parameters defined for the extended
+ * <a href="http://jetty.codehaus.org/jetty/maven-plugin/run-mojo.html"><code>jetty:run</code></a>
+ * goal are also available.
  * 
  * @extendsPlugin jetty
  * @goal run
@@ -70,6 +74,8 @@ public class JettyPlutoRunMojo extends Jetty6RunMojo {
 	
 	/**
 	 * The portlet.xml file to be used. The default location is in ${basedir}/src/main/webapp/WEB-INF.
+	 * The file can also be specified at runtime using the <code>maven.war.portletxml</code>
+	 * property.
 	 * 
 	 * @parameter expression="${maven.war.portletxml}"
 	 */
@@ -90,6 +96,8 @@ public class JettyPlutoRunMojo extends Jetty6RunMojo {
 	 * of the portlet descriptor.</p>
 	 * 
 	 * <p>Example: <code>&lt;portletNames>MyPortlet,Another Portlet&lt;/portletNames></code></p>
+	 * 
+	 * <p>The portlets can also be specified at runtime using the <code>portletNames</code> property.</p>
 	 * 
 	 * @parameter expression="${portletNames}"
 	 * @required
@@ -157,19 +165,19 @@ public class JettyPlutoRunMojo extends Jetty6RunMojo {
 	 * <code>portalLibraries</code>. To use a different version of the Pluto portal,
 	 * you have to specify a portal implementation using the <code>portal</code> parameter.
 	 * 
-	 * @parameter expression="${pluto.version}" default-value="2.0.0"
+	 * @parameter default-value="2.0.0"
 	 */
 	protected String plutoVersion;
 	
 	/**
 	 * Context path for the portal implementation.
 	 * 
-	 * @parameter expression="${pluto.contextPath}" default-value="/pluto"
+	 * @parameter default-value="/pluto"
 	 */
 	protected String plutoContextPath;
 
 	/**
-	 * <p>List of users to be added in the user realm. By default a single user <code>pluto</cdoe>
+	 * <p>List of users to be added in the user realm. By default a single user <code>pluto</code>
 	 * with password <code>pluto</code> and role <code>pluto</code> is included in the
 	 * user realm but this parameter can be used to override user realm data.</p>
 	 * 
@@ -180,7 +188,7 @@ public class JettyPlutoRunMojo extends Jetty6RunMojo {
 	 *   &lt;user>
 	 *     &lt;name>myuser&lt;/name>
 	 *     &lt;password>mypass&lt;/passsword>
-	 *     &lt;roles>myrole, admin&lt;/roles>
+	 *     &lt;roles>myrole,admin&lt;/roles>
 	 *   &lt;/user>
 	 * &lt/users>
 	 * </pre>
@@ -192,7 +200,7 @@ public class JettyPlutoRunMojo extends Jetty6RunMojo {
 	/**
 	 * Name of the user realm passed on to Pluto.
 	 * 
-	 * @parameter expression="${pluto.realm.name}" default-value="Pluto Realm"
+	 * @parameter default-value="Pluto Realm"
 	 */
 	protected String plutoRealmName;
 	

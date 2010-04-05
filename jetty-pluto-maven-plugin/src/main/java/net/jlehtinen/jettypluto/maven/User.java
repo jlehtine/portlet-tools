@@ -88,7 +88,7 @@ public class User implements Principal {
 			if (rolesSet == null) {
 				rolesSet = new HashSet();
 				if (roles != null && !roles.equals("")) {
-					String[] parsedRoles = roles.split("[, \\s]+");
+					String[] parsedRoles = roles.split(",");
 					for (int i = 0; i < parsedRoles.length; i++) {
 						rolesSet.add(parsedRoles[i]);
 					}

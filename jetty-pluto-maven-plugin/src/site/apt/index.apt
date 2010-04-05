@@ -38,7 +38,7 @@ Jetty-Pluto Maven Plugin
 
     * {{{http://portals.apache.org/pluto/}Apache Pluto}}
 
-  This plugin uses a {{{http://www.jlehtinen.net/portlet-tools/jetty-pluto-container/}modified version of the Pluto Portal}} as the prototyping portal.
+  This plugin uses a {{{http://www.jlehtinen.net/portlet-tools/jetty-pluto-portal/}slightly modified version of the Pluto Portal}} as the prototyping portal.
 
 * Goals Overview
 
