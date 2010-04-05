@@ -20,7 +20,10 @@ import java.text.MessageFormat;
 
 import javax.servlet.ServletContext;
 
+import net.jlehtinen.jettypluto.portal.util.ReflectionWrapper;
+
 import org.apache.pluto.driver.services.impl.resource.RenderConfigServiceImpl;
+import org.apache.pluto.driver.services.impl.resource.ResourceConfig;
 import org.apache.pluto.driver.services.portal.PageConfig;
 import org.apache.pluto.driver.services.portal.RenderConfigService;
 import org.slf4j.Logger;
@@ -76,8 +79,19 @@ public class PortletPrototypingRenderConfigService extends RenderConfigServiceIm
 		
 		// Configure prototyping page, if any portlets defined
 		if (parsedPortletNames.length > 0) {
+			
+			// Create and add the portlet prototyping page
 			portletPrototypingPage = createPortletPrototypingPageConfig(portletContext, parsedPortletNames);
 			addPage(portletPrototypingPage);
+
+			// Make it the default page id using reflection
+			try {
+				ReflectionWrapper thisRef = new ReflectionWrapper(this);
+				ResourceConfig resourceConfig = (ResourceConfig) thisRef.getFieldValue("config");
+				resourceConfig.getRenderConfig().setDefaultPageId(PORTLET_PAGE_NAME);
+			} catch (Exception e) {
+				logger.error("Failed to set default page using reflection", e);
+			}
 		}
 		
 		logger.info(MessageFormat.format("Configured {0} prototype portlets", new Object[] { new Integer(parsedPortletNames.length) }));
@@ -99,5 +113,5 @@ public class PortletPrototypingRenderConfigService extends RenderConfigServiceIm
 		}
 		return config;
 	}
-	
+
 }
