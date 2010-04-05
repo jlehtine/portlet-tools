@@ -25,7 +25,7 @@
 
 Jetty-Pluto Portal
 
-  A slightly modified version of the {{{http://portals.apache.org/pluto/}Apache Pluto}
+  A slightly modified version of the {{{http://portals.apache.org/pluto/}Apache Pluto}}
   portal that can be used for rapid portlet prototyping together with the
   {{{http://www.jlehtinen.net/portlet-tools/jetty-pluto-maven-plugin/}Jetty-Pluto Maven Plugin}}.
   

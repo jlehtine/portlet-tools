@@ -23,11 +23,11 @@
  ------
 
 
-Portlet Tools
+Portlet Tools for Maven
 
-  Tools for developing Java portlets. This project contains currently couple of modules
-  that are intended to be used for rapid portlet development in Maven based
-  portlet projects.
+  Tools for developing Java portlets in Maven based projects. This project contains
+  couple of submodules that are intended to be used for rapid portlet development in Maven based
+  portlet development projects.
 
   To get started, check the {{{./jetty-pluto-maven-plugin/index.html}Jetty-Pluto Maven Plugin}}.
 

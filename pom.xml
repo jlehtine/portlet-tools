@@ -19,10 +19,10 @@
 	<artifactId>portlet-tools</artifactId>
 	<version>0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
-	<name>Portlet Tools</name>
+	<name>Portlet Tools for Maven</name>
 	<description>
-      Tools for developing Java portlets. This project contains couple of submodules
-      that are intended to be used for rapid portlet development in Maven based
+      Tools for developing Java portlets in Maven based projects. This project contains
+      couple of submodules that are intended to be used for rapid portlet development in Maven based
       portlet development projects.
     </description>
 	<modules>
@@ -43,6 +43,7 @@
 		<developerConnection>scm:svn:http://svn.jlehtinen.net/svn/portlet-tools/trunk</developerConnection>
 	</scm>
 	<distributionManagement>
+	    <downloadUrl>http://repo.jlehtinen.net/maven2/</downloadUrl>
 		<repository>
 			<id>jlehtinen.net</id>
 			<url>scp://jlehtinen.net/home/jlehtine/repo.jlehtinen.net/maven2/</url>
@@ -64,6 +65,28 @@
 			<timezone>+2</timezone>
 		</developer>
 	</developers>
+	<reporting>
+	   <plugins>
+	       <plugin>
+	           <groupId>org.apache.maven.plugins</groupId>
+	           <artifactId>maven-project-info-reports-plugin</artifactId>
+	           <reportSets>
+	               <reportSet>
+	                   <reports>
+	                       <report>dependencies</report>
+                           <report>dependency-management</report>
+                           <report>license</report>
+                           <report>plugin-management</report>
+                           <report>plugins</report>
+                           <report>project-team</report>
+                           <report>scm</report>
+                           <report>summary</report>
+	                   </reports>
+	               </reportSet>
+	           </reportSets>
+	       </plugin>
+	   </plugins>
+	</reporting>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <servlet-api.version>2.5</servlet-api.version>
