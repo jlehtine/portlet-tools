@@ -33,8 +33,8 @@ THE SOFTWARE.
 	<inceptionYear>2010</inceptionYear>
 	<licenses>
 	   <license>
-	       <name>The MIT License</name>
-	       <url>http://www.jlehtinen.net/jetty-pluto-maven-plugin/license.html</url>
+	       <name>Apache License, Version 2.0</name>
+	       <url>ttp://www.apache.org/licenses/LICENSE-2.0</url>
 	       <distribution>repo</distribution>
 	   </license>
 	</licenses>

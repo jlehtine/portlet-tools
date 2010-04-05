@@ -18,7 +18,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 Modified by Johannes Lehtinen for the Jetty-Pluto portal package
-used as a testing portal for rapid portlet development.
+used as a prototyping portal for rapid portlet development.
 -->
 
 <pluto-portal-driver
