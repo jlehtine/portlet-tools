@@ -15,47 +15,17 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>net.jlehtinen</groupId>
+	<parent>
+        <groupId>net.jlehtinen</groupId>
+        <artifactId>portlet-tools</artifactId>
+        <version>0.1-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
 	<artifactId>jetty-pluto-portal</artifactId>
-	<version>0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
 	<name>Jetty-Pluto Portal</name>
 	<description>Modified Pluto Portal for rapid portlet prototyping using Jetty-Pluto Maven Plugin</description>
 	<url>http://www.jlehtinen.net/portlet-tools/jetty-pluto-portal/</url>
-	<inceptionYear>2010</inceptionYear>
-	<licenses>
-		<license>
-			<name>Apache License, Version 2.0</name>
-			<url>http://www.apache.org/licenses/LICENSE-2.0</url>
-			<distribution>repo</distribution>
-		</license>
-	</licenses>
-	<scm>
-		<connection>scm:svn:http://svn.jlehtinen.net/svn/portlet-tools/trunk/jetty-pluto-portal</connection>
-		<developerConnection>scm:svn:http://svn.jlehtinen.net/svn/portlet-tools/trunk/jetty-pluto-portal</developerConnection>
-	</scm>
-	<distributionManagement>
-		<repository>
-			<id>jlehtinen.net</id>
-			<url>scp://jlehtinen.net/home/jlehtine/repo.jlehtinen.net/maven2/</url>
-		</repository>
-		<site>
-			<id>jlehtinen.net</id>
-			<url>scp://jlehtinen.net/home/jlehtine/jlehtinen.net/portlet-tools/jetty-pluto-portal/</url>
-		</site>
-	</distributionManagement>
-	<developers>
-		<developer>
-			<id>jle</id>
-			<name>Johannes Lehtinen</name>
-			<email>johannes.lehtinen@iki.fi</email>
-			<roles>
-				<role>architect</role>
-				<role>developer</role>
-			</roles>
-			<timezone>+2</timezone>
-		</developer>
-	</developers>
     <reporting>
         <plugins>
             <plugin>
@@ -98,10 +68,4 @@
 			<scope>provided</scope>
 		</dependency>
 	</dependencies>
-	<properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<servlet-api.version>2.5</servlet-api.version>
-		<pluto.version>2.0.0</pluto.version>
-	</properties>
 </project>
-

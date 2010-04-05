@@ -1,13 +1,72 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>net.jlehtinen</groupId>
-  <artifactId>portlet-tools</artifactId>
-  <version>1-SNAPSHOT</version>
-  <packaging>pom</packaging>
-  <name>JL Portlet Tools</name>
-  <description>Tools for developing Java portlets.</description>
-  <modules>
-  	<module>jetty-pluto-maven-plugin</module>
-  	<module>jetty-pluto-portal</module>
-  </modules>
+<?xml version="1.0" encoding="UTF-8"?>
+    <!--
+        Copyright 2010 Johannes Lehtinen Licensed under the Apache License,
+        Version 2.0 (the "License"); you may not use this file except in
+        compliance with the License. You may obtain a copy of the License at
+
+        http://www.apache.org/licenses/LICENSE-2.0
+        
+        Unless required by applicable law or agreed to in writing, software distributed under the
+        License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
+        CONDITIONS OF ANY KIND, either express or implied. See the License for
+        the specific language governing permissions and limitations under the
+        License.
+    -->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>net.jlehtinen</groupId>
+	<artifactId>portlet-tools</artifactId>
+	<version>0.1-SNAPSHOT</version>
+	<packaging>pom</packaging>
+	<name>Portlet Tools</name>
+	<description>
+      Tools for developing Java portlets. This project contains couple of submodules
+      that are intended to be used for rapid portlet development in Maven based
+      portlet development projects.
+    </description>
+	<modules>
+		<module>jetty-pluto-maven-plugin</module>
+		<module>jetty-pluto-portal</module>
+	</modules>
+	<url>http://www.jlehtinen.net/portlet-tools/</url>
+	<inceptionYear>2010</inceptionYear>
+	<licenses>
+		<license>
+			<name>Apache License, Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+	<scm>
+		<connection>scm:svn:http://svn.jlehtinen.net/svn/portlet-tools/trunk</connection>
+		<developerConnection>scm:svn:http://svn.jlehtinen.net/svn/portlet-tools/trunk</developerConnection>
+	</scm>
+	<distributionManagement>
+		<repository>
+			<id>jlehtinen.net</id>
+			<url>scp://jlehtinen.net/home/jlehtine/repo.jlehtinen.net/maven2/</url>
+		</repository>
+		<site>
+			<id>jlehtinen.net</id>
+			<url>scp://jlehtinen.net/home/jlehtine/jlehtinen.net/portlet-tools/</url>
+		</site>
+	</distributionManagement>
+	<developers>
+		<developer>
+			<id>jle</id>
+			<name>Johannes Lehtinen</name>
+			<email>johannes.lehtinen@iki.fi</email>
+			<roles>
+				<role>architect</role>
+				<role>developer</role>
+			</roles>
+			<timezone>+2</timezone>
+		</developer>
+	</developers>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <servlet-api.version>2.5</servlet-api.version>
+        <pluto.version>2.0.0</pluto.version>
+    </properties>
 </project>
