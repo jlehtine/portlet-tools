@@ -24,6 +24,7 @@ limitations under the License.
   <packaging>war</packaging>
   <name>Jetty-Pluto Portal</name>
   <description>Modified Pluto Portal for rapid portlet prototyping using Jetty-Pluto Maven Plugin</description>
+  <url>http://www.jlehtinen.net/portlet-tools/jetty-pluto-portal/</url>  
   <inceptionYear>2010</inceptionYear>
   <licenses>
      <license>
@@ -36,6 +37,12 @@ limitations under the License.
      <connection>scm:svn:http://svn.jlehtinen.net/svn/portlet-tools/trunk/jetty-pluto-portal</connection>
      <developerConnection>scm:svn:http://svn.jlehtinen.net/svn/portlet-tools/trunk/jetty-pluto-portal</developerConnection>
   </scm>
+  <distributionManagement>
+     <repository>
+         <id>jlehtinen.net</id>
+         <url>scp://jlehtinen.net/home/jlehtine/repo.jlehtinen.net/</url>
+     </repository>
+  </distributionManagement>
   <developers>
      <developer>
          <id>jle</id>

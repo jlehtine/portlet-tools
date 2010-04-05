@@ -1,5 +1,5 @@
  ------
- Introduction
+ Usage
  ------
  Johannes Lehtinen
  ------
@@ -7,5 +7,14 @@
  ------
 
 
-Jetty-Pluto Maven Plugin
+Overview
 
+  Jetty-Pluto Maven Plugin is intended to be used with Maven based portlet
+  development projects for rapid portlet development. It enables
+  on-the-fly prototyping of the portlet being developed withou
+
+Repository Configuration
+
+  Jetty-Pluto Maven Plugin is available 
+
+Example

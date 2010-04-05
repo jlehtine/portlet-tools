@@ -1,0 +1,24 @@
+ ------
+ Limitations
+ ------
+ Johannes Lehtinen
+ ------
+ 2010-04-05
+ ------
+
+* Known Bugs
+
+  The following bugs are known but not yet fixed.
+
+    * Portlet container is not restarted when web.xml or portlet.xml
+    descriptors are modified.
+
+* Known Limitations
+
+  The following limitations are known.
+
+    * Portlets based on the portal user information can not be currently
+    prototyped with this plugin. A plan is to make it possible to
+    associate a portal user with the prototyping session
+    and to configure user attributes so that user-related portlets can be
+    prototyped.
