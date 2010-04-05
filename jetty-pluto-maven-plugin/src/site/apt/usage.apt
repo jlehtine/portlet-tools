@@ -93,16 +93,16 @@ Usage
 <pluginRepositories>
   
   <!-- Central repository -->
-  <repository>
+  <pluginRepository>
     <id>central</id>
     <url>http://repo1.maven.org/maven2/</url>
-  </repository>
+  </pluginRepository>
 
   <!-- jlehtinen.net repository -->
-  <repository>
+  <pluginRepository>
     <id>jlehtinen.net</id>
     <url>http://repo.jlehtinen.net/maven2/</url>
-  </repository>      
+  </pluginRepository>      
     
 </pluginRepositories>
 +-----------------------------------------------------------------------
