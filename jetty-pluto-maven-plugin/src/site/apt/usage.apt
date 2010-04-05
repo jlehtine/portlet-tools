@@ -29,31 +29,33 @@ Usage
   on-the-fly prototyping of the portlet being developed without
   time consuming deploys to a heavy-weight portal server.
 
-* Quick Start
-
-  To quickly try how it works, you can create a demonstration project using
-  the <<<net.jlehtinen:jetty-pluto-maven-archetype>>> archetype.
-  
-+-------------------------------------------------------------------------
-+-------------------------------------------------------------------------
-
-  Then execute the {{{run-mojo.html}jetty-pluto:run}} goal from within the created
-  project directory.
-
-+-------------------------------------------------------------------------
-mvn jetty-pluto:run
-+-------------------------------------------------------------------------
-
-  This will start up Jetty and Pluto at local port 8080, so you should be
-  able to contact to the prototyping portlet and the example portlet
-  by browsing to the following address.
-  
-  {{http://localhost:8080/pluto/}}
-
-  You can now edit the example JSPs and compile the classes while the
-  portal is running. The prototyping portal should restart and refresh
-  automatically within 10 seconds after changes. Alternatively, you can
-  manually stop and start it.  
+~~~
+~~~ * Quick Start
+~~~ 
+~~~   To quickly try how it works, you can create a demonstration project using
+~~~   the <<<net.jlehtinen:jetty-pluto-maven-archetype>>> archetype.
+~~~   
+~~~ +-------------------------------------------------------------------------
+~~~ +-------------------------------------------------------------------------
+~~~ 
+~~~   Then execute the {{{run-mojo.html}jetty-pluto:run}} goal from within the created
+~~~   project directory.
+~~~ 
+~~~ +-------------------------------------------------------------------------
+~~~ mvn jetty-pluto:run
+~~~ +-------------------------------------------------------------------------
+~~~ 
+~~~   This will start up Jetty and Pluto at local port 8080, so you should be
+~~~   able to contact to the prototyping portlet and the example portlet
+~~~   by browsing to the following address.
+~~~   
+~~~   {{http://localhost:8080/pluto/}}
+~~~ 
+~~~   You can now edit the example JSPs and compile the classes while the
+~~~   portal is running. The prototyping portal should restart and refresh
+~~~   automatically within 10 seconds after changes. Alternatively, you can
+~~~   manually stop and start it.  
+~~~ 
 
 * Repository Configuration
 

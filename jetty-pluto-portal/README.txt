@@ -7,7 +7,7 @@ selected resources from the original Pluto Portal package.
 
 For more information, see:
 
-  http://www.jlehtinen.net/jetty-pluto-maven-plugin/
+  http://www.jlehtinen.net/portlet-tools/jetty-pluto-maven-plugin/
 
 For more information on Apache Pluto, see:
 

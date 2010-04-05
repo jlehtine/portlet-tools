@@ -42,3 +42,10 @@ Limitations
     associate a portal user with the prototyping session
     and to configure user attributes so that user-related portlets can be
     prototyped.
+
+    * Portlets using portal implementation specific libraries and
+    functionality can not be prototyped with this plugin. This is a
+    fundamental limitation. However, in some special cases you might
+    be able to work around this limitation by including portal
+    implementation libraries in the shared class path using the
+    <portalLibraries> parameter.

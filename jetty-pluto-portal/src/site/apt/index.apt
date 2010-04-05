@@ -1,0 +1,67 @@
+~~~
+~~~ Copyright 2010 Johannes Lehtinen 
+~~~ 
+~~~ Licensed under the Apache License, Version 2.0 (the "License");
+~~~ you may not use this file except in compliance with the License.
+~~~ You may obtain a copy of the License at
+~~~ 
+~~~   http://www.apache.org/licenses/LICENSE-2.0
+~~~ 
+~~~ Unless required by applicable law or agreed to in writing, software
+~~~ distributed under the License is distributed on an "AS IS" BASIS,
+~~~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+~~~ See the License for the specific language governing permissions and
+~~~ limitations under the License.
+~~~
+
+ ------
+ Introduction
+ ------
+ Johannes Lehtinen
+ ------
+ 2010-04-05
+ ------
+
+
+Jetty-Pluto Portal
+
+  A slightly modified version of the {{{http://portals.apache.org/pluto/}Apache Pluto}
+  portal that can be used for rapid portlet prototyping together with the
+  {{{http://www.jlehtinen.net/portlet-tools/jetty-pluto-maven-plugin/}Jetty-Pluto Maven Plugin}}.
+  
+  Jetty-Pluto Portal has been implemented as a WAR overlay on Apache Pluto portal
+  package <pluto-portal> version 2.0.0.  
+
+  The main difference to the original portal is that the displayed custom portlets
+  and their context can be configured at runtime using system properties.
+
+
+* Usage
+
+  This package is intended to be used together with the Jetty-Pluto Maven Plugin that
+  automatically downloads and confgures the package properly.
+  
+  However, if you wish to use the package directly, the following system properties
+  control portlet deployment.
+  
+    * <portletContextPath> specify the context path (starting with a slash '/')
+    for the portlet containing web application
+    
+    * <portletNames> specify the names of the portlets to be displayed as a
+    comma-separated string
+
+  Additionally, you have to include the standard Pluto portal dependency libraries
+  into the shared class path. Check the Pluto deploy documentation for details.
+  
+* Feedback
+  
+  If you think that the package is missing a feature or has a defect, you can send feedback to the package developer at {{{mailto:johannes.lehtinen@iki.fi}johannes.lehtinen@iki.fi}}.
+  Try to describe in your problem report how to reproduce the problem.
+  Attached sample projects are the best way to track down problems and patches are of course welcome.
+  If you are sure that the issue is associated with the Apache Pluto portal
+  implementation and you can reproduce it with the original <pluto-portal> package,
+  then please report the issue directly to the Apache Pluto project. 
+  
+  Mailing lists and an an issue tracker will be made available if there is demand for them.
+
+  The source code is available from the {{{source-repository.html}source repository}}. 

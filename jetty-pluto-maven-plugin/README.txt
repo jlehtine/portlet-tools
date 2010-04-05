@@ -6,7 +6,7 @@ container and the Apache Pluto portlet container.
 
 For more information, see:
 
-  http://www.jlehtinen.net/jetty-pluto-maven-plugin/
+  http://www.jlehtinen.net/portlet-tools/jetty-pluto-maven-plugin/
 
 For more information on Jetty and Apache Pluto, see:
 
