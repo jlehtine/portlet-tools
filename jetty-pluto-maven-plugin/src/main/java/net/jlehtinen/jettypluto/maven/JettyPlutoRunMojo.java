@@ -70,6 +70,12 @@ public class JettyPlutoRunMojo extends Jetty6RunMojo {
 	/** System property for the portlet context */
 	protected static final String PORTLET_CONTEXT_PATH_PROPERTY = "portletContextPath";
 	
+	/** Minimum supported Java version */
+	protected static final int MIN_JAVA_VERSION = 6;
+
+	/** System property for skipping Java version check */
+	protected static final String SKIP_JAVA_VERSION_CHECK_PROPERTY = "net.jlehtinen.jettypluto.maven.skipJavaVersionCheck";
+	
 	/**
 	 * The portlet.xml file to be used. The default location is in ${basedir}/src/main/webapp/WEB-INF.
 	 * The file can also be specified at runtime using the <code>maven.war.portletxml</code>
@@ -244,6 +250,9 @@ public class JettyPlutoRunMojo extends Jetty6RunMojo {
 	
 	public void execute() throws MojoExecutionException, MojoFailureException {
 
+		// Check Java version
+		checkJavaVersion();
+		
 		// Configure this mojo
 		configureJettyPlutoRunMojo();
 
@@ -259,6 +268,38 @@ public class JettyPlutoRunMojo extends Jetty6RunMojo {
 		super.execute();
 	}
 
+	/**
+	 * Checks for a supported Java version.
+	 */
+	protected void checkJavaVersion() {
+		String skip = System.getProperty(SKIP_JAVA_VERSION_CHECK_PROPERTY);
+		String versionStr = System.getProperty("java.version");
+		if (skip == null && versionStr != null) {
+			try {
+				int stop1 = versionStr.indexOf('.');
+				int major = Integer.valueOf(versionStr.substring(0, stop1)).intValue();
+				int stop2 = versionStr.indexOf('.', stop1 + 1);
+				int minor = Integer.valueOf(versionStr.substring(stop1 + 1, stop2 != -1 ? stop2 : versionStr.length())).intValue();
+				if (major < 1 || (major == 1 && minor < MIN_JAVA_VERSION)) {
+					getLog().error(MessageFormat.format(
+							"Jetty-Pluto Maven Plugin requires Java {0} or greater but current version {1} < 1.{0}.",
+							new Object[] {
+									new Integer(MIN_JAVA_VERSION),
+									versionStr
+							}
+					));
+					getLog().info(MessageFormat.format(
+							"Set system property -D{0} to skip version check.",
+							new Object[] { SKIP_JAVA_VERSION_CHECK_PROPERTY }
+					));
+					System.exit(1);
+				}
+			} catch (Throwable t) {
+				getLog().warn(MessageFormat.format("Exception parsing Java version string {0}", new Object[] { versionStr }), t);
+			}
+		}
+	}
+	
 	/**
 	 * Overrides the Jetty plugin method to add the portal context handler
 	 * into the list of handlers.
