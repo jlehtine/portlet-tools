@@ -37,17 +37,6 @@
             </plugin>
         </plugins>
     </reporting>
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-site-plugin</artifactId>
-                <configuration>
-                    <siteDirectory>${basedir}/src/site</siteDirectory>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
 	<dependencies>
 		<dependency>
 			<groupId>javax.servlet</groupId>
