@@ -1,3 +1,9 @@
+ ------
+ Introduction
+ ------
+ ------
+ ------
+
 ~~~
 ~~~ Copyright 2010 Johannes Lehtinen 
 ~~~ 
@@ -14,14 +20,6 @@
 ~~~ limitations under the License.
 ~~~
 
- ------
- Introduction
- ------
- Johannes Lehtinen
- ------
- 2010-04-05
- ------
-
 
 Portlet Tools for Maven
 
@@ -29,10 +27,4 @@ Portlet Tools for Maven
   couple of submodules that are intended to be used for rapid portlet development in Maven based
   portlet development projects.
 
-  To get started, check the {{{./jetty-pluto-maven-plugin/index.html}Jetty-Pluto Maven Plugin}}.
-
-* Modules
-
-  * {{{./jetty-pluto-maven-plugin/index.html}Jetty-Pluto Maven Plugin}}
-  
-  * {{{./jetty-pluto-portal/index.html}Jetty-Pluto Portal}}
+  To get started, go to the {{{./jetty-pluto-maven-plugin/index.html}Jetty-Pluto Maven Plugin}}.

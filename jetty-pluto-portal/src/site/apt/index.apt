@@ -27,7 +27,7 @@ Jetty-Pluto Portal
 
   A slightly modified version of the {{{http://portals.apache.org/pluto/}Apache Pluto}}
   portal that can be used for rapid portlet prototyping together with the
-  {{{http://www.jlehtinen.net/portlet-tools/jetty-pluto-maven-plugin/}Jetty-Pluto Maven Plugin}}.
+  {{{../jetty-pluto-maven-plugin/index.html}Jetty-Pluto Maven Plugin}}.
   
   Jetty-Pluto Portal has been implemented as a WAR overlay on Apache Pluto portal
   package <pluto-portal> version 2.0.0.  
@@ -64,4 +64,4 @@ Jetty-Pluto Portal
   
   Mailing lists and an an issue tracker will be made available if there is demand for them.
 
-  The source code is available from the {{{source-repository.html}source repository}}. 
+  The source code is available from the {{{./source-repository.html}source repository}}. 

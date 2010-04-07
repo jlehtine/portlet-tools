@@ -1,3 +1,9 @@
+ ------
+ Limitations
+ ------
+ ------
+ ------
+
 ~~~
 ~~~ Copyright 2010 Johannes Lehtinen 
 ~~~ 
@@ -14,14 +20,6 @@
 ~~~ limitations under the License.
 ~~~
 
- ------
- Limitations
- ------
- Johannes Lehtinen
- ------
- 2010-04-05
- ------
-
 Limitations
 
   The current implementation has some known bugs and limitations.
@@ -29,6 +27,8 @@ Limitations
 * Known Bugs
 
   The following bugs are known.
+
+    * Does not work with Java 5 (is this due to Pluto 2.0.0?)
 
     * Portlet container is not restarted when web.xml or portlet.xml
     descriptors are modified.
