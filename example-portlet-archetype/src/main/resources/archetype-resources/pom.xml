@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>${groupId}</groupId>
+  <artifactId>${artifactId}</artifactId>
+  <version>${version}</version>
+  <packaging>war</packaging>
+  
+  <!-- Repositories for dependencies -->
+  <repositories>
+  
+    <!-- Central repository -->
+    <repository>
+      <id>central</id>
+      <url>http://repo1.maven.org/maven2/</url>
+    </repository>
+
+    <!-- jlehtinen.net repository -->
+    <repository>
+      <id>jlehtinen.net</id>
+      <url>http://repo.jlehtinen.net/maven2/</url>
+    </repository>      
+    
+  </repositories>
+
+  <!-- Repositories for plugins -->
+  <pluginRepositories>
+  
+    <!-- Central repository -->
+    <pluginRepository>
+      <id>central</id>
+      <url>http://repo1.maven.org/maven2/</url>
+    </pluginRepository>
+
+    <!-- jlehtinen.net repository -->
+    <pluginRepository>
+      <id>jlehtinen.net</id>
+      <url>http://repo.jlehtinen.net/maven2/</url>
+    </pluginRepository>      
+    
+  </pluginRepositories>
+  
+  <!-- Dependencies (Portlet and JSTL APIs) -->
+  <dependencies>
+	<dependency>
+  		<groupId>org.apache.portals</groupId>
+  		<artifactId>portlet-api_2.0_spec</artifactId>
+  		<version>1.0</version>
+  		<scope>provided</scope>
+  	</dependency>
+  	<dependency>
+  		<groupId>javax.servlet</groupId>
+  		<artifactId>jstl</artifactId>
+  		<version>1.2</version>
+  		<type>jar</type>
+  		<scope>provided</scope>
+  	</dependency>
+  </dependencies>
+  
+  <!-- Plugin configuration -->
+  <build>
+    <plugins>
+        <plugin>
+            <groupId>net.jlehtinen</groupId>
+            <artifactId>portlet-prototyping-maven-plugin</artifactId>
+            <configuration>
+                <portletNames>example-portlet</portletNames>
+            </configuration>
+        </plugin>
+    </plugins>
+  </build>
+  
+</project>
