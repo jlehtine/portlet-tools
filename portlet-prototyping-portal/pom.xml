@@ -20,11 +20,11 @@
         <version>0.2-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
-	<artifactId>jetty-pluto-portal</artifactId>
+	<artifactId>portlet-prototyping-portal</artifactId>
 	<packaging>war</packaging>
-	<name>Jetty-Pluto Portal</name>
-	<description>Modified Pluto Portal for rapid portlet prototyping using Jetty-Pluto Maven Plugin</description>
-	<url>http://www.jlehtinen.net/portlet-tools/jetty-pluto-portal/</url>
+	<name>Portlet Prototyping Portal</name>
+	<description>Modified version of the Apache Pluto Portal for rapid portlet prototyping using the Portlet Prototyping Maven Plugin</description>
+	<url>http://www.jlehtinen.net/portlet-tools/portlet-prototyping-portal/</url>
     <reporting>
         <plugins>
             <plugin>

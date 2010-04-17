@@ -20,15 +20,15 @@
         <version>0.2-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
-	<artifactId>jetty-pluto-maven-plugin</artifactId>
+	<artifactId>portlet-prototyping-maven-plugin</artifactId>
 	<packaging>maven-plugin</packaging>
-	<name>Jetty-Pluto Maven Plugin</name>
+	<name>Portlet Prototyping Maven Plugin</name>
 	<description>
 	   Runs the portlet or portlets being developed directly from the Maven source project
 	   using the Jetty servlet container and the Apache Pluto portlet container. This
 	   plugin is intended for rapid portlet development in Maven based projects.
 	</description>
-	<url>http://www.jlehtinen.net/portlet-tools/jetty-pluto-maven-plugin/</url>
+	<url>http://www.jlehtinen.net/portlet-tools/portlet-prototyping-maven-plugin/</url>
 	<build>
         <resources>
             <resource>
