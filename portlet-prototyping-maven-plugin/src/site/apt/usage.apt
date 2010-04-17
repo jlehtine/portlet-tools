@@ -22,7 +22,7 @@
 
 Usage
 
-  Jetty-Pluto Maven Plugin is intended to be used with Maven based portlet
+  Portlet Prototyping Maven Plugin is intended to be used with Maven based portlet
   development projects for rapid portlet development. It enables
   on-the-fly prototyping of the portlet being developed without
   time consuming deploys to a heavy-weight portal server.
@@ -36,7 +36,7 @@ Usage
 ~~~ +-------------------------------------------------------------------------
 ~~~ +-------------------------------------------------------------------------
 ~~~ 
-~~~   Then execute the {{{run-mojo.html}jetty-pluto:run}} goal from within the created
+~~~   Then execute the {{{run-mojo.html}portlet-prototyping:run}} goal from within the created
 ~~~   project directory.
 ~~~ 
 ~~~ +-------------------------------------------------------------------------
@@ -57,7 +57,7 @@ Usage
 
 * Repository Configuration
 
-  For now, Jetty-Pluto Maven Plugin is available in the following
+  For now, this plugin is available in the following
   custom repository. In addition to the plugin itself, the plugin will also
   use Maven's artifact resolver to look up additional resources from
   this repository so you have to add the repository in the list of plugin
@@ -107,10 +107,10 @@ Usage
 
 * Plugin Configuration
 
-  You can configure the plugin statically for a selected set of portlets
-  within the project configuration. The following example shows how the
-  plugin can be configured to show two portlets, named <MyPortlet> and
-  <OtherPortlet> in the portlet descriptor.
+  You can configure the plugin statically to run a specified subset of
+  portlets defined within the portlet development project. The following
+  example shows how the plugin can be configured to run two portlets,
+  named <MyPortlet> and <OtherPortlet>.
 
 +-------------------------------------------------------------------------
 <project>
@@ -120,11 +120,12 @@ Usage
       ...
       <plugin>
         <groupId>net.jlehtinen</groupId>
-        <artifactId>jetty-pluto-maven-plugin</artifactId>
+        <artifactId>portlet-prototyping-maven-plugin</artifactId>
         <configuration>
           <portletNames>MyPortlet,OtherPortlet</portletNames>
         </configuration>
       </plugin>
+      ...
     </plugins>
   </build>
 </project>
@@ -134,8 +135,8 @@ Usage
   at runtime using the <portletNames> system property.
 
 +-------------------------------------------------------------------------
-mvn jetty-pluto:run -DportletNames=MyPortlet,OtherPortlet
+mvn portlet-prototyping:run -DportletNames=MyPortlet,OtherPortlet
 +-------------------------------------------------------------------------
 
-  Also check configuration options inherited from the
-  {{{http://docs.codehaus.org/display/JETTY/Maven+Jetty+Plugin}Maven Jetty Plugin}}.
+  See {{{./plugin-info.html}plugin information}} for a complete list of
+  configuration options.

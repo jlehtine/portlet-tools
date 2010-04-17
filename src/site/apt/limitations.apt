@@ -28,8 +28,6 @@ Limitations
 
   The following bugs are known.
 
-    * Does not work with Java 5 (is this due to Pluto 2.0.0?)
-
     * Portlet container is not restarted when web.xml or portlet.xml
     descriptors are modified.
 
@@ -37,7 +35,10 @@ Limitations
 
   The following limitations are known.
 
-    * Portlets based on the portal user information can not be currently
+    * Requires at least Java 6, does not work with Java 5 (not sure
+    why but the portal does not start up properly)
+
+    * Portlets using portal user information can not be currently
     prototyped with this plugin. A plan is to make it possible to
     associate a portal user with the prototyping session
     and to configure user attributes so that user-related portlets can be
@@ -46,6 +47,5 @@ Limitations
     * Portlets using portal implementation specific libraries and
     functionality can not be prototyped with this plugin. This is a
     fundamental limitation. However, in some special cases you might
-    be able to work around this limitation by including portal
-    implementation libraries in the shared class path using the
-    <portalLibraries> parameter.
+    be able to work around this limitation by including additional portal
+    implementation libraries in the shared class path.

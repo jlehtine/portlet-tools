@@ -1,3 +1,9 @@
+ ------
+ Introduction
+ ------
+ ------
+ ------
+
 ~~~
 ~~~ Copyright 2010 Johannes Lehtinen 
 ~~~ 
@@ -14,31 +20,22 @@
 ~~~ limitations under the License.
 ~~~
 
- ------
- Introduction
- ------
- Johannes Lehtinen
- ------
- 2010-04-05
- ------
+Portlet Prototyping Portal
 
-
-Jetty-Pluto Portal
-
-  A slightly modified version of the {{{http://portals.apache.org/pluto/}Apache Pluto}}
-  portal that can be used for rapid portlet prototyping together with the
-  {{{../jetty-pluto-maven-plugin/index.html}Jetty-Pluto Maven Plugin}}.
+  Portal that can be used for rapid portlet prototyping together with the
+  {{{http://www.jlehtinen.net/portlet-tools/portlet-prototyping-maven-plugin/}Portlet Prototyping Maven Plugin}}.
   
-  Jetty-Pluto Portal has been implemented as a WAR overlay on Apache Pluto portal
+  This plugin is part of the {{{http://www.jlehtinen.net/portlet-tools/}Portlet Tools for Maven}} project.
+  It is a slightly modified version of the {{{http://portals.apache.org/pluto/}Apache Pluto}} portal
+  and it has been implemented as a WAR overlay on Apache Pluto portal
   package <pluto-portal> version 2.0.0.  
 
   The main difference to the original portal is that the displayed custom portlets
   and their context can be configured at runtime using system properties.
 
-
 * Usage
 
-  This package is intended to be used together with the Jetty-Pluto Maven Plugin that
+  This package is intended to be used together with the Portlet Prototyping Maven Plugin that
   automatically downloads and confgures the package properly.
   
   However, if you wish to use the package directly, the following system properties
@@ -54,14 +51,5 @@ Jetty-Pluto Portal
   into the shared class path. Check the Pluto deploy documentation for details.
   
 * Feedback
-  
-  If you think that the package is missing a feature or has a defect, you can send feedback to the package developer at {{{mailto:johannes.lehtinen@iki.fi}johannes.lehtinen@iki.fi}}.
-  Try to describe in your problem report how to reproduce the problem.
-  Attached sample projects are the best way to track down problems and patches are of course welcome.
-  If you are sure that the issue is associated with the Apache Pluto portal
-  implementation and you can reproduce it with the original <pluto-portal> package,
-  then please report the issue directly to the Apache Pluto project. 
-  
-  Mailing lists and an an issue tracker will be made available if there is demand for them.
 
-  The source code is available from the {{{./source-repository.html}source repository}}. 
+  For feedback, check the {{{http://ww.jlehtinen.net/portlet-tools/}Portlet Tools for Maven}} project.
