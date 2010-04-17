@@ -21,8 +21,8 @@ implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 
-Modified by Johannes Lehtinen for the Jetty-Pluto portal package
-used as a prototyping portal for rapid portlet development.
+Modified by Johannes Lehtinen for the Portlet Prototyping Portal
+used for rapid portlet development.
 -->
 
 <web-app>

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package net.jlehtinen.jettypluto.maven;
+package net.jlehtinen.portlet.prototyping.maven;
 
 import java.io.File;
 import java.net.URL;
@@ -25,7 +25,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
 
-import net.jlehtinen.jettypluto.maven.util.ReflectionWrapper;
+import net.jlehtinen.portlet.prototyping.maven.util.ReflectionWrapper;
 
 import org.apache.maven.artifact.Artifact;
 import org.apache.maven.artifact.factory.ArtifactFactory;
@@ -56,10 +56,10 @@ import org.mortbay.jetty.webapp.WebAppContext;
 public class JettyPlutoRunMojo extends Jetty6RunMojo {
 
 	/** Jetty-Pluto group identifier */
-	protected static final String JETTY_PLUTO_GROUP_ID = "net.jlehtinen";
+	protected static final String PORTLET_PROTOTYPING_GROUP_ID = "net.jlehtinen";
 	
 	/** Jetty-Pluto portal identifier */
-	protected static final String JETTY_PLUTO_PORTAL_ID = "jetty-pluto-portal";
+	protected static final String PORTLET_PROTOTYPING_PORTAL_ID = "portlet-prototyping-portal";
 	
 	/** Pluto group identifier */
 	protected static final String PLUTO_GROUP_ID = "org.apache.portals.pluto";
@@ -70,11 +70,14 @@ public class JettyPlutoRunMojo extends Jetty6RunMojo {
 	/** System property for the portlet context */
 	protected static final String PORTLET_CONTEXT_PATH_PROPERTY = "portletContextPath";
 	
+	/** Path to properties file containing version information */
+	protected static final String VERSION_PROPERTIES_PATH = "/net/jlehtinen/portlet/prototyping/maven/version.properties";
+	
 	/** Minimum supported Java version */
 	protected static final int MIN_JAVA_VERSION = 6;
 
 	/** System property for skipping Java version check */
-	protected static final String SKIP_JAVA_VERSION_CHECK_PROPERTY = "net.jlehtinen.jettypluto.maven.skipJavaVersionCheck";
+	protected static final String SKIP_JAVA_VERSION_CHECK_PROPERTY = "net.jlehtinen.portlet.prototyping.maven.skipJavaVersionCheck";
 	
 	/**
 	 * The portlet.xml file to be used. The default location is in ${basedir}/src/main/webapp/WEB-INF.
@@ -123,8 +126,8 @@ public class JettyPlutoRunMojo extends Jetty6RunMojo {
      * <pre>
      * &lt;portal>
      *   &lt;groupId>net.jlehtinen&lt;/groupId>
-     *   &lt;artifactId>jetty-pluto-portal&lt;/artifactId>
-     *   &lt;version>0.1&lt;/version>
+     *   &lt;artifactId>portlet-prototyping-portal&lt;/artifactId>
+     *   &lt;version>0.2&lt;/version>
      *   &lt;packaging>war&lt;/packaging>
      * &lt;/portal>
      * </pre>
@@ -282,7 +285,7 @@ public class JettyPlutoRunMojo extends Jetty6RunMojo {
 				int minor = Integer.valueOf(versionStr.substring(stop1 + 1, stop2 != -1 ? stop2 : versionStr.length())).intValue();
 				if (major < 1 || (major == 1 && minor < MIN_JAVA_VERSION)) {
 					getLog().error(MessageFormat.format(
-							"Jetty-Pluto Maven Plugin requires Java {0} or greater but current version {1} < 1.{0}.",
+							"Portlet Prototyping Maven Plugin requires Java {0} or greater but current version {1} < 1.{0}.",
 							new Object[] {
 									new Integer(MIN_JAVA_VERSION),
 									versionStr
@@ -483,7 +486,7 @@ public class JettyPlutoRunMojo extends Jetty6RunMojo {
 		String version;
 		try {
 			Properties prop = new Properties();
-			prop.load(getClass().getResource("/net/jlehtinen/jettypluto/maven/version.properties").openStream());
+			prop.load(getClass().getResource(VERSION_PROPERTIES_PATH).openStream());
 			version = prop.getProperty("version");
 		} catch (Exception e) {
 			throw new MojoExecutionException("Failed to read version information", e);
@@ -493,7 +496,7 @@ public class JettyPlutoRunMojo extends Jetty6RunMojo {
 		}
 		
 		// Return the default portal
-		return new ArtifactIdentity(JETTY_PLUTO_GROUP_ID, JETTY_PLUTO_PORTAL_ID, version, "war");
+		return new ArtifactIdentity(PORTLET_PROTOTYPING_GROUP_ID, PORTLET_PROTOTYPING_PORTAL_ID, version, "war");
 	}
 	
 	/**

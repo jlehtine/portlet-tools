@@ -13,13 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package net.jlehtinen.jettypluto.portal;
+package net.jlehtinen.portlet.prototyping.portal;
 
 import java.text.MessageFormat;
 
 import javax.servlet.ServletContext;
 
-import net.jlehtinen.jettypluto.portal.util.ReflectionWrapper;
+import net.jlehtinen.portlet.prototyping.portal.util.ReflectionWrapper;
 
 import org.apache.pluto.driver.services.impl.resource.RenderConfigServiceImpl;
 import org.apache.pluto.driver.services.impl.resource.ResourceConfig;
@@ -100,7 +100,7 @@ public class PortletPrototypingRenderConfigService extends RenderConfigServiceIm
 			}
 		}
 		
-		logger.info(MessageFormat.format("Configured {0} prototype portlets", new Object[] { new Integer(parsedPortletNames.length) }));
+		logger.info(MessageFormat.format("Configured {0} portlets", new Object[] { new Integer(parsedPortletNames.length) }));
 	}
 
 	/**
