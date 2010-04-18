@@ -3,6 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>${groupId}</groupId>
   <artifactId>${artifactId}</artifactId>
+  <name>Example Portlet Project</name>
   <version>${version}</version>
   <packaging>war</packaging>
   
@@ -58,6 +59,7 @@
   </dependencies>
   
   <!-- Plugin configuration -->
+  <description>Example of a portlet project and how to use Portlet Tools for Maven</description>
   <build>
     <plugins>
         <plugin>

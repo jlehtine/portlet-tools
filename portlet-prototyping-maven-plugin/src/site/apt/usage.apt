@@ -27,33 +27,39 @@ Usage
   on-the-fly prototyping of the portlet being developed without
   time consuming deploys to a heavy-weight portal server.
 
-~~~
-~~~ * Quick Start
-~~~ 
-~~~   To quickly try how it works, you can create a demonstration project using
-~~~   the <<<net.jlehtinen:jetty-pluto-maven-archetype>>> archetype.
-~~~   
-~~~ +-------------------------------------------------------------------------
-~~~ +-------------------------------------------------------------------------
-~~~ 
-~~~   Then execute the {{{run-mojo.html}portlet-prototyping:run}} goal from within the created
-~~~   project directory.
-~~~ 
-~~~ +-------------------------------------------------------------------------
-~~~ mvn jetty-pluto:run
-~~~ +-------------------------------------------------------------------------
-~~~ 
-~~~   This will start up Jetty and Pluto at local port 8080, so you should be
-~~~   able to contact to the prototyping portlet and the example portlet
-~~~   by browsing to the following address.
-~~~   
-~~~   {{http://localhost:8080/pluto/}}
-~~~ 
-~~~   You can now edit the example JSPs and compile the classes while the
-~~~   portal is running. The prototyping portal should restart and refresh
-~~~   automatically within 10 seconds after changes. Alternatively, you can
-~~~   manually stop and start it.  
-~~~ 
+
+* Quick Start
+
+  To quickly try how it works, you can create a demonstration project using
+  the <net.jlehtinen:example-portlet-archetype> archetype available from
+  the <http://repo.jlehtinen.net/maven2/> repository.
+  
++-------------------------------------------------------------------------
+mvn archetype:create \
+    -DremoteRepositories=http://repo.jlehtinen.net/maven2/ \
+    -DarchetypeGroupId=net.jlehtinen \
+    -DarchetypeArtifactId=example-portlet-archetype \
+    -DgroupId=example \
+    -DartifactId=example-portlet
++-------------------------------------------------------------------------
+
+  Then execute the {{{run-mojo.html}portlet-prototyping:run}} goal from within the created
+  <example-portlet> project directory.
+
++-------------------------------------------------------------------------
+mvn portlet-prototyping:run
++-------------------------------------------------------------------------
+
+  This will start up Jetty and Pluto at local port 8080, so you should be
+  able to contact to the prototyping portlet and the example portlet
+  by browsing to the following address.
+  
+  {{http://localhost:8080/pluto/}}
+
+  You can now edit the example JSPs on the fly and see the changes
+  immediately. You can also manually stop (Ctrl-C) and start the
+  container fairly quickly.
+
 
 * Repository Configuration
 
@@ -63,11 +69,11 @@ Usage
   this repository so you have to add the repository in the list of plugin
   repositories as well as in the main repository list. 
 
-  <<<http://repo.jlehtinen.net/maven2/>>>
+  <http://repo.jlehtinen.net/maven2/>
   
   The following example shows how you can do this within the
-  <project> element of <<<pom.xml>>> or the <profile> element of
-  <<<settings.xml>>>.
+  <project> element of <pom.xml> or the <profile> element of
+  <settings.xml>.
   
 +-----------------------------------------------------------------------
 <!-- Repositories for dependencies -->
@@ -104,6 +110,7 @@ Usage
     
 </pluginRepositories>
 +-----------------------------------------------------------------------
+
 
 * Plugin Configuration
 
