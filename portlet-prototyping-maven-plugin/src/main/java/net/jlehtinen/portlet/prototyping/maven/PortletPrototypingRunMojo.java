@@ -17,15 +17,19 @@
 package net.jlehtinen.portlet.prototyping.maven;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
+import java.util.Set;
 
+import net.jlehtinen.portlet.prototyping.maven.util.PortletXmlUtils;
 import net.jlehtinen.portlet.prototyping.maven.util.ReflectionWrapper;
 
 import org.apache.maven.artifact.Artifact;
@@ -41,20 +45,21 @@ import org.apache.pluto.util.assemble.AssemblerFactory;
 import org.mortbay.jetty.handler.ContextHandler;
 import org.mortbay.jetty.plugin.Jetty6RunMojo;
 import org.mortbay.jetty.webapp.WebAppContext;
+import org.w3c.dom.Document;
 
 /**
  * Runs the portlet or portlets being developed directly from the Maven source project
  * using the Jetty servlet container and the Apache Pluto portlet container. Extends the
- * <a href="http://docs.codehaus.org/display/JETTY/Maven+Jetty+Plugin"><code>maven-jetty-plugin</code></a>.
+ * <a href="http://docs.codehaus.org/display/JETTY/Maven+Jetty+Plugin"><em>maven-jetty-plugin</em></a>.
  * Notice that in addition to parameters defined here, the parameters defined for the extended
- * <a href="http://jetty.codehaus.org/jetty/maven-plugin/run-mojo.html"><code>jetty:run</code></a>
+ * <a href="http://jetty.codehaus.org/jetty/maven-plugin/run-mojo.html"><em>jetty:run</em></a>
  * goal are also available.
  * 
  * @extendsPlugin jetty
  * @goal run
- * @description Runs the Apache Pluto portal under Jetty on a Maven portlet project
+ * @description Runs the portlet or portlets being developed from the Maven source project
  */
-public class JettyPlutoRunMojo extends Jetty6RunMojo {
+public class PortletPrototypingRunMojo extends Jetty6RunMojo {
 
 	/** Jetty-Pluto group identifier */
 	protected static final String PORTLET_PROTOTYPING_GROUP_ID = "net.jlehtinen";
@@ -82,15 +87,25 @@ public class JettyPlutoRunMojo extends Jetty6RunMojo {
 	
 	/**
 	 * The portlet.xml file to be used. The default location is in ${basedir}/src/main/webapp/WEB-INF.
-	 * The file can also be specified at runtime using the <code>maven.war.portletxml</code>
+	 * The file can also be specified at runtime using the <em>maven.war.portletxml</em>
 	 * property.
 	 * 
 	 * @parameter expression="${maven.war.portletxml}"
 	 */
 	protected File portletXml;
 	
+	/**
+	 * The destination file into which a modified version of the <em>portlet.xml</em> is written.
+	 * This will be used only if the descriptor needs to be modified.
+	 * 
+	 * @parameter expression="${project.build.directory}/pluto-resources/portlet.xml"
+	 * @readonly
+	 * @required
+	 */
+	protected File portletXmlDestination;
+	
     /**
-     * The destination file into which an assembled version of the web.xml is written.
+     * The destination file into which an assembled version of the <em>web.xml</em> is written.
      * 
      * @parameter expression="${project.build.directory}/pluto-resources/web.xml"
      * @readonly
@@ -100,17 +115,29 @@ public class JettyPlutoRunMojo extends Jetty6RunMojo {
 
 	/**
 	 * <p>Specifies the names of the portlets to be prototyped under Pluto as a comma separated list.
-	 * The names must match exactly the name provided in the <code>portlet-name</code> element
+	 * The names must match exactly the name provided in the <em>portlet-name</em> element
 	 * of the portlet descriptor.</p>
 	 * 
 	 * <p>Example: <code>&lt;portletNames>MyPortlet,Another Portlet&lt;/portletNames></code></p>
 	 * 
-	 * <p>The portlets can also be specified at runtime using the <code>portletNames</code> property.</p>
+	 * <p>The portlets can also be specified at runtime using the <em>portletNames</em> property.</p>
 	 * 
 	 * @parameter expression="${portletNames}"
 	 * @required
 	 */
 	protected String portletNames;
+	
+	/**
+	 * <p>Whether to disable portlets other than the ones specified in <i>portletNames</i>. If this is set
+	 * to true, the other portlets are disabled by filtering them away from the <em>portlet.xml</em>
+	 * before the portlet project is deployed. The default is not to disable other portlets.</p>
+	 * 
+	 * <p>This parameter can be used if some of the other portlets depend on portal implementation
+	 * specific features that are not available in the prototyping environment.</p>
+	 * 
+	 * @parameter expression="${disableOtherPortlets}" default-value="false"
+	 */
+	protected boolean disableOtherPortlets = false;
 	
     /**
      * <p>Portal implementation to use. By default a slightly modified Pluto portal implementation is
@@ -118,9 +145,9 @@ public class JettyPlutoRunMojo extends Jetty6RunMojo {
      * customized portal style by creating a WAR overlay on the default portal and then specify
      * the custom portal version using this parameter.</p>
      * 
-     * <p>You can either specify a Maven artifact using <code>groupId</code>,
-     * <code>artifactId</code> and <code>version</code>, or a direct path to the WAR
-     * using <code>file</code>.</p>
+     * <p>You can either specify a Maven artifact using <em>groupId</em>,
+     * <em>artifactId</em> and <em>version</em>, or a direct path to the WAR
+     * using <em>file</em>.</p>
      * 
      * <p>The following example demonstrates how to use Maven artifact resolution:</p>
      * 
@@ -143,9 +170,9 @@ public class JettyPlutoRunMojo extends Jetty6RunMojo {
 	 * are included but this parameter can be used to override the default
 	 * set of libraries.</p>
 	 * 
-	 * <p>Each library can be specified either as a Maven artifact using <code>groupId</code>,
-	 * <code>artifactId</code> and <code>version</code>, or as a direct path to the JAR
-	 * using <code>file</code>.</p>
+	 * <p>Each library can be specified either as a Maven artifact using <em>groupId</em>,
+	 * <em>artifactId</em> and <em>version</em>, or as a direct path to the JAR
+	 * using <em>file</em>.</p>
 	 * 
 	 * <p>The following example demonstrates both kinds of library referrals:</p>
 	 * 
@@ -170,8 +197,8 @@ public class JettyPlutoRunMojo extends Jetty6RunMojo {
 	/**
 	 * Version of the Pluto portal implementation to be used. This only affects the
 	 * default portal libraries if they have not been explicitly specified using
-	 * <code>portalLibraries</code>. To use a different version of the Pluto portal,
-	 * you have to specify a portal implementation using the <code>portal</code> parameter.
+	 * <em>portalLibraries</em>. To use a different version of the Pluto portal,
+	 * you have to specify a portal implementation using the <em>portal</em> parameter.
 	 * 
 	 * @parameter default-value="2.0.0"
 	 */
@@ -185,8 +212,8 @@ public class JettyPlutoRunMojo extends Jetty6RunMojo {
 	protected String plutoContextPath;
 
 	/**
-	 * <p>List of users to be added in the user realm. By default a single user <code>pluto</code>
-	 * with password <code>pluto</code> and role <code>pluto</code> is included in the
+	 * <p>List of users to be added in the user realm. By default a single user <em>pluto</em>
+	 * with password <em>pluto</em> and role <em>pluto</em> is included in the
 	 * user realm but this parameter can be used to override user realm data.</p>
 	 * 
 	 * <p>The following example demonstrates the use of this parameter:</p>
@@ -518,10 +545,30 @@ public class JettyPlutoRunMojo extends Jetty6RunMojo {
 	 */
 	protected void assemblePortlets() throws MojoExecutionException {
 		
+		// Filter portlet.xml if so configured
+		File portletXmlUsed;
+		if (disableOtherPortlets) {
+			String[] pna = portletNames.split(",");
+			Set portletNamesSet = new HashSet(pna.length);
+			for (int i = 0; i < pna.length; i++) {
+				portletNamesSet.add(pna[i]);
+			}
+			try {
+				Document portletXmlDoc = PortletXmlUtils.load(portletXml);
+				PortletXmlUtils.filterPortlets(portletXmlDoc, portletNamesSet);
+				PortletXmlUtils.save(portletXmlDoc, portletXmlDestination);
+			} catch (IOException e) {
+				throw new MojoExecutionException("Error while filtering portlet.xml", e);
+			}
+			portletXmlUsed = portletXmlDestination;
+		} else {
+			portletXmlUsed = portletXml;
+		}
+		
 		// Create assembler configuration
 		AssemblerConfig assemblerConfig = new AssemblerConfig();
 		assemblerConfig.setWebappDescriptor(originalWebXml);
-		assemblerConfig.setPortletDescriptor(portletXml);
+		assemblerConfig.setPortletDescriptor(portletXmlUsed);
 		assemblerConfig.setDestination(webXmlDestination);
 		
 		// Assembler portlets
