@@ -29,7 +29,7 @@ import java.util.List;
 import java.util.Properties;
 import java.util.Set;
 
-import net.jlehtinen.portlet.prototyping.maven.util.PortletXmlUtils;
+import net.jlehtinen.portlet.prototyping.maven.util.PortletXml;
 import net.jlehtinen.portlet.prototyping.maven.util.ReflectionWrapper;
 
 import org.apache.maven.artifact.Artifact;
@@ -45,7 +45,6 @@ import org.apache.pluto.util.assemble.AssemblerFactory;
 import org.mortbay.jetty.handler.ContextHandler;
 import org.mortbay.jetty.plugin.Jetty6RunMojo;
 import org.mortbay.jetty.webapp.WebAppContext;
-import org.w3c.dom.Document;
 
 /**
  * Runs the portlet or portlets being developed directly from the Maven source project
@@ -116,14 +115,13 @@ public class PortletPrototypingRunMojo extends Jetty6RunMojo {
 	/**
 	 * <p>Specifies the names of the portlets to be prototyped under Pluto as a comma separated list.
 	 * The names must match exactly the name provided in the <em>portlet-name</em> element
-	 * of the portlet descriptor.</p>
+	 * of the portlet descriptor. The default is to include all portlets found in the portlet.xml.</p>
 	 * 
 	 * <p>Example: <code>&lt;portletNames>MyPortlet,Another Portlet&lt;/portletNames></code></p>
 	 * 
 	 * <p>The portlets can also be specified at runtime using the <em>portletNames</em> property.</p>
 	 * 
 	 * @parameter expression="${portletNames}"
-	 * @required
 	 */
 	protected String portletNames;
 	
@@ -271,13 +269,14 @@ public class PortletPrototypingRunMojo extends Jetty6RunMojo {
      */
     protected List remoteRepositories;
 
-	/**
-	 * Context handler for the Pluto portal.
-	 */
+	/** Context handler for the Pluto portal. */
 	protected ContextHandler plutoHandler;
 	
 	/** The original web.xml file of the web application */
 	protected File originalWebXml;
+	
+	/** The parsed portlet.xml or null if not loaded yet */
+	protected PortletXml parsedPortletXml;
 	
 	public void execute() throws MojoExecutionException, MojoFailureException {
 
@@ -469,8 +468,16 @@ public class PortletPrototypingRunMojo extends Jetty6RunMojo {
 		// Pass the context path onwards in a system parameter
 		System.setProperty(PORTLET_CONTEXT_PATH_PROPERTY, getContextPath());
 		
-		// Pass the portlet identifiers onwards in a system parameter
-		if (portletNames != null && System.getProperty(PORTLET_NAMES_PROPERTY) == null) {
+		// Pass the portlet identifiers onwards in a system property
+		if (System.getProperty(PORTLET_NAMES_PROPERTY) == null) {
+			
+			// Use portlet names from portlet.xml if not specified
+			if (portletNames == null) {
+				portletNames = getDefaultPortletNames();
+				disableOtherPortlets = false;
+			}
+			
+			// Set the system property
 			System.setProperty(PORTLET_NAMES_PROPERTY, portletNames);
 		}
 	}
@@ -491,6 +498,27 @@ public class PortletPrototypingRunMojo extends Jetty6RunMojo {
 	 */
 	protected File getDefaultPortletXml() {
 		return new File(new File(getWebAppSourceDirectory(), "WEB-INF"), "portlet.xml");
+	}
+	
+	/**
+	 * Returns the default string of portlet names, loaded from the portlet.xml.
+	 * 
+	 * @return default portlet names
+	 * @throws MojoExecutionException if an error occurs
+	 */
+	protected String getDefaultPortletNames() throws MojoExecutionException {
+		PortletXml doc = getParsedPortletXml();
+		Set namesSet = doc.getPortletNames();
+		StringBuilder namesBuf = new StringBuilder();
+		Iterator iter = namesSet.iterator();
+		while (iter.hasNext()) {
+			String name = (String) iter.next();
+			if (namesBuf.length() > 0) {
+				namesBuf.append(',');
+			}
+			namesBuf.append(name);
+		}
+		return namesBuf.toString();
 	}
 	
     /**
@@ -553,14 +581,15 @@ public class PortletPrototypingRunMojo extends Jetty6RunMojo {
 			for (int i = 0; i < pna.length; i++) {
 				portletNamesSet.add(pna[i]);
 			}
+			PortletXml doc = getParsedPortletXml();
+			doc.filterPortlets(portletNamesSet);
 			try {
-				Document portletXmlDoc = PortletXmlUtils.load(portletXml);
-				PortletXmlUtils.filterPortlets(portletXmlDoc, portletNamesSet);
-				PortletXmlUtils.save(portletXmlDoc, portletXmlDestination);
+				doc.save(portletXmlDestination);
 			} catch (IOException e) {
-				throw new MojoExecutionException("Error while filtering portlet.xml", e);
+				throw new MojoExecutionException("Failed to save filtered portlet.xml", e);
 			}
 			portletXmlUsed = portletXmlDestination;
+			getLog().info(MessageFormat.format("Filtered portlet.xml = {0}", new Object[] { portletXmlDestination }));			
 		} else {
 			portletXmlUsed = portletXml;
 		}
@@ -673,5 +702,22 @@ public class PortletPrototypingRunMojo extends Jetty6RunMojo {
     		throw new MojoExecutionException(MessageFormat.format("Could not resolve artifact {0}", new Object[] { artifact }), e);
     	}
     	return new File(localRepository.getBasedir(), localRepository.pathOf(artifact)).getPath();
+    }
+    
+    /**
+     * Returns the parsed portlet.xml, loading it if necessary.
+     * 
+     * @return portlet.xml as a DOM document
+     * @throws MojoExecutionException if portlet.xml can not be loaded or parsed
+     */
+    protected PortletXml getParsedPortletXml() throws MojoExecutionException {
+    	if (parsedPortletXml == null) {
+    		try {
+    			parsedPortletXml = PortletXml.load(portletXml);
+    		} catch (IOException e) {
+    			throw new MojoExecutionException("Failed to load or parse portlet.xml", e);
+    		}
+    	}
+    	return parsedPortletXml;
     }
 }
