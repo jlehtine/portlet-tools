@@ -190,7 +190,7 @@ public class PortletPrototypingRunMojo extends Jetty6RunMojo {
 	 * 
 	 * @parameter
 	 */
-	protected List portalLibraries;
+	protected List<Library> portalLibraries;
 	
 	/**
 	 * Version of the Pluto portal implementation to be used. This only affects the
@@ -228,7 +228,7 @@ public class PortletPrototypingRunMojo extends Jetty6RunMojo {
 	 * 
 	 * @parameter
 	 */
-	protected List users;
+	protected List<User> users;
 	
 	/**
 	 * Name of the user realm passed on to Pluto.
@@ -267,7 +267,7 @@ public class PortletPrototypingRunMojo extends Jetty6RunMojo {
      * @readonly
      * @required
      */
-    protected List remoteRepositories;
+    protected List<ArtifactRepository> remoteRepositories;
 
 	/** Context handler for the Pluto portal. */
 	protected ContextHandler plutoHandler;
@@ -394,19 +394,10 @@ public class PortletPrototypingRunMojo extends Jetty6RunMojo {
 		
 		// Validate the user-specified libraries
 		if (portalLibraries != null) {
-			Iterator iter = portalLibraries.iterator();
+			Iterator<Library> iter = portalLibraries.iterator();
 			while (iter.hasNext()) {
-
-				// Check that it is Library
-				Object o = iter.next();
-				if (o == null || !(o instanceof Library)) {
-					throw new MojoExecutionException("Configuration entries in <portalLibraries> must be of type <library>");
-				}
-				Library l = (Library) o;
-
-				// Validate contents
 				try {
-					l.validate();
+					iter.next().validate();
 				} catch (MojoExecutionException e) {
 					throw new MojoExecutionException(MessageFormat.format("Invalid <library> entry in configuration: {0}", new Object[] { e.getMessage() }));
 				}
@@ -415,19 +406,10 @@ public class PortletPrototypingRunMojo extends Jetty6RunMojo {
 		
 		// Validate the user-specified realm data
 		if (users != null) {
-			Iterator iter = users.iterator();
+			Iterator<User> iter = users.iterator();
 			while (iter.hasNext()) {
-				
-				// Check that it is User
-				Object o = iter.next();
-				if (o == null || !(o instanceof User)) {
-					throw new MojoExecutionException("Configuration entries in <users> must be of type <user>");
-				}
-				User u = (User) o;
-				
-				// Validate contents
 				try {
-					u.validate();
+					iter.next().validate();
 				} catch (MojoExecutionException e) {
 					throw new MojoExecutionException(MessageFormat.format("Invalid <user> entry in configuration: {0}",	new Object[] { e.getMessage() }));
 				}				
@@ -441,13 +423,13 @@ public class PortletPrototypingRunMojo extends Jetty6RunMojo {
 		
 		// Initialize the default set of portal libraries, if necessary
 		if (portalLibraries == null) {
-			portalLibraries = new ArrayList();
+			portalLibraries = new ArrayList<Library>();
 			addDefaultPortalLibraries(portalLibraries);
 		}
 
 		// Initialize the default set of users, if necessary
 		if (users == null) {
-			users = new ArrayList();
+			users = new ArrayList<User>();
 			users.add(new User("pluto", "pluto", "pluto"));
 		}
 		
@@ -457,7 +439,7 @@ public class PortletPrototypingRunMojo extends Jetty6RunMojo {
 		}
 		
 		// Resolve the libraries
-		Iterator iter = portalLibraries.iterator();
+		Iterator<Library> iter = portalLibraries.iterator();
 		while (iter.hasNext()) {
 			Library l = (Library) iter.next();
 			if (l.getFile() == null) {
@@ -508,11 +490,11 @@ public class PortletPrototypingRunMojo extends Jetty6RunMojo {
 	 */
 	protected String getDefaultPortletNames() throws MojoExecutionException {
 		PortletXml doc = getParsedPortletXml();
-		Set namesSet = doc.getPortletNames();
+		Set<String> namesSet = doc.getPortletNames();
 		StringBuilder namesBuf = new StringBuilder();
-		Iterator iter = namesSet.iterator();
+		Iterator<String> iter = namesSet.iterator();
 		while (iter.hasNext()) {
-			String name = (String) iter.next();
+			String name = iter.next();
 			if (namesBuf.length() > 0) {
 				namesBuf.append(',');
 			}
@@ -560,7 +542,7 @@ public class PortletPrototypingRunMojo extends Jetty6RunMojo {
 	 * 
 	 * @param portalLibraries list of portal libraries
 	 */
-	protected void addDefaultPortalLibraries(List portalLibraries) {
+	protected void addDefaultPortalLibraries(List<Library> portalLibraries) {
 		portalLibraries.add(new Library("org.apache.portals", "portlet-api_2.0_spec", "1.0"));
 		portalLibraries.add(new Library(PLUTO_GROUP_ID, "pluto-container-api", plutoVersion));
 		portalLibraries.add(new Library(PLUTO_GROUP_ID, "pluto-container-driver-api", plutoVersion));
@@ -577,7 +559,7 @@ public class PortletPrototypingRunMojo extends Jetty6RunMojo {
 		File portletXmlUsed;
 		if (disableOtherPortlets) {
 			String[] pna = portletNames.split(",");
-			Set portletNamesSet = new HashSet(pna.length);
+			Set<String> portletNamesSet = new HashSet<String>(pna.length);
 			for (int i = 0; i < pna.length; i++) {
 				portletNamesSet.add(pna[i]);
 			}
@@ -615,7 +597,7 @@ public class PortletPrototypingRunMojo extends Jetty6RunMojo {
 	protected void configureClassPath() throws MojoExecutionException {
 		
 		// Resolve each library and add it to the class path
-		Iterator iter = portalLibraries.iterator();
+		Iterator<Library> iter = portalLibraries.iterator();
 		while (iter.hasNext()) {
 
 			// Add library to the mojo class loader

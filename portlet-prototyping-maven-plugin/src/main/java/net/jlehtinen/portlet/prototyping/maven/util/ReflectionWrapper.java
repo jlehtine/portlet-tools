@@ -56,7 +56,7 @@ public class ReflectionWrapper {
 	 * @return value of the field
 	 */
 	public Object getFieldValue(final String field) {
-		return AccessController.doPrivileged(new PrivilegedAction() {
+		return AccessController.doPrivileged(new PrivilegedAction<Object>() {
 			public Object run() {
 				try {
 					Field f = getField(field);
@@ -82,7 +82,7 @@ public class ReflectionWrapper {
 	 * @param value value of the field
 	 */
 	public void setFieldValue(final String field, final Object value) {
-		AccessController.doPrivileged(new PrivilegedAction() {
+		AccessController.doPrivileged(new PrivilegedAction<Object>() {
 			public Object run() {
 				try {
 					Field f = getField(field);
@@ -110,8 +110,8 @@ public class ReflectionWrapper {
 	 * @param methodArgs method invocation arguments
 	 * @return method return value, if any
 	 */
-	public Object invokeMethod(final String method, final Class[] methodArgTypes, final Object[] methodArgs) {
-		return AccessController.doPrivileged(new PrivilegedAction() {
+	public Object invokeMethod(final String method, final Class<?>[] methodArgTypes, final Object[] methodArgs) {
+		return AccessController.doPrivileged(new PrivilegedAction<Object>() {
 			public Object run() {
 				try {
 					Method m = getMethod(method, methodArgTypes);
@@ -138,7 +138,7 @@ public class ReflectionWrapper {
 	 */
 	protected Field getField(String field) {
 		NoSuchFieldException initialNSFE = null;
-		Class clazz = getWrappedObject().getClass();
+		Class<?> clazz = getWrappedObject().getClass();
 		while (clazz != null) {
 			try {
 				return clazz.getDeclaredField(field);
@@ -165,9 +165,9 @@ public class ReflectionWrapper {
 	 * @param methodArgTypes method argument signature
 	 * @return reflected method
 	 */
-	protected Method getMethod(String method, Class[] methodArgTypes) {
+	protected Method getMethod(String method, Class<?>[] methodArgTypes) {
 		NoSuchMethodException initialNSME = null;
-		Class clazz = getWrappedObject().getClass();
+		Class<?> clazz = getWrappedObject().getClass();
 		while (clazz != null) {
 			try {
 				return clazz.getDeclaredMethod(method, methodArgTypes);

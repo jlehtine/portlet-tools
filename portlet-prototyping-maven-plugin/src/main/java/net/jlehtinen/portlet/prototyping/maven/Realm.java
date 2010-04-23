@@ -70,7 +70,7 @@ public class Realm implements UserRealm {
 	protected final String name;
 	
 	/** Map of users by name */
-	protected final Map usersByName;
+	protected final Map<String, User> usersByName;
 
 	/**
 	 * Constructs and initializes a new instance using the specified users.
@@ -78,12 +78,12 @@ public class Realm implements UserRealm {
 	 * @param name realm name
 	 * @param users collection of users
 	 */
-	public Realm(String name, Collection users) {
+	public Realm(String name, Collection<User> users) {
 		this.name = name;
-		usersByName = new HashMap();
-		Iterator iter = users.iterator();
+		usersByName = new HashMap<String, User>();
+		Iterator<User> iter = users.iterator();
 		while (iter.hasNext()) {
-			User u = (User) iter.next();
+			User u = iter.next();
 			usersByName.put(u.getUsername(), u);
 		}
 	}

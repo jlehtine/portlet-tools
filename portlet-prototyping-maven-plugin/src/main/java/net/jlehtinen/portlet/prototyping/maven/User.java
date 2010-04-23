@@ -37,7 +37,7 @@ public class User implements Principal {
 	protected String roles;
 	
 	/** User roles as a set */
-	protected Set rolesSet;
+	protected Set<String> rolesSet;
 	
 	/** Mutex for accessing the roles set */
 	protected final Object mutex = new Object();
@@ -84,10 +84,10 @@ public class User implements Principal {
 	 * 
 	 * @return set of user roles
 	 */
-	protected Set getRolesSet() {
+	protected Set<String> getRolesSet() {
 		synchronized (mutex) {
 			if (rolesSet == null) {
-				rolesSet = new HashSet();
+				rolesSet = new HashSet<String>();
 				if (roles != null && !roles.equals("")) {
 					String[] parsedRoles = roles.split(",");
 					for (int i = 0; i < parsedRoles.length; i++) {

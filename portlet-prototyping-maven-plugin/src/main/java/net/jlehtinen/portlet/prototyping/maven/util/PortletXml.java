@@ -31,7 +31,7 @@ public class PortletXml {
 	protected Document portletXmlDoc;
 	
 	/** The portlet DOM elements */
-	protected Collection portletElements;
+	protected Collection<Element> portletElements;
 	
 	/**
 	 * Constructs a new instance from the specified portlet.xml file.
@@ -59,9 +59,9 @@ public class PortletXml {
 	 * @param portletXmlDoc porlet.xml as a DOM document
 	 * @return collection found portlet DOM elements
 	 */
-	protected static Collection findPortletNodes(Document portletXmlDoc) {
+	protected static Collection<Element> findPortletNodes(Document portletXmlDoc) {
 		Node root = portletXmlDoc.getDocumentElement();
-		Collection portlets = new ArrayList();
+		Collection<Element> portlets = new ArrayList<Element>();
 		
 		// Check that this is a portlet descriptor
 		if (root.getLocalName().equals("portlet-app")) {
@@ -71,7 +71,7 @@ public class PortletXml {
 			for (int i = 0; i < rootChildren.getLength(); i++) {
 				Node child = rootChildren.item(i);
 				if (child.getNodeType() == Node.ELEMENT_NODE && child.getLocalName().equals("portlet")) {
-					portlets.add(child);
+					portlets.add((Element) child);
 				}
 			}
 		}
@@ -95,11 +95,11 @@ public class PortletXml {
 	 * 
 	 * @return names of specified portlets
 	 */
-	public Set getPortletNames() {
-		Set names = new HashSet();
-		Iterator iter = portletElements.iterator();
+	public Set<String> getPortletNames() {
+		Set<String> names = new HashSet<String>();
+		Iterator<Element> iter = portletElements.iterator();
 		while (iter.hasNext()) {
-			Element portletElement = (Element) iter.next();
+			Element portletElement = iter.next();
 			String portletName = getPortletName(portletElement);
 			if (portletName != null) {
 				names.add(portletName);
@@ -115,10 +115,10 @@ public class PortletXml {
 	 * @param includedPortlets set of portlet names to be included
 	 * @throws IOException
 	 */
-	public void filterPortlets(Set includedPortlets) {
-		Iterator iter = portletElements.iterator();
+	public void filterPortlets(Set<String> includedPortlets) {
+		Iterator<Element> iter = portletElements.iterator();
 		while (iter.hasNext()) {
-			Element portletElement = (Element) iter.next();
+			Element portletElement = iter.next();
 			
 			// Filter portlet if necessary
 			String portletName = getPortletName(portletElement);
