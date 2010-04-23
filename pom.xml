@@ -28,6 +28,7 @@
 		<module>portlet-prototyping-maven-plugin</module>
 		<module>portlet-prototyping-portal</module>
 		<module>example-portlet-archetype</module>
+		<module>lib</module>
 	</modules>
 	<url>http://www.jlehtinen.net/portlet-tools/</url>
 	<inceptionYear>2010</inceptionYear>
