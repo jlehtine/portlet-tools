@@ -1,4 +1,4 @@
-package net.jlehtinen.portlet.prototyping.maven.util;
+package net.jlehtinen.portlet.util;
 
 import java.io.File;
 import java.io.IOException;

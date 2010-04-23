@@ -20,7 +20,7 @@ import java.text.MessageFormat;
 
 import javax.servlet.ServletContext;
 
-import net.jlehtinen.portlet.prototyping.portal.util.ReflectionWrapper;
+import net.jlehtinen.portlet.util.ReflectionWrapper;
 
 import org.apache.pluto.driver.services.impl.resource.RenderConfigServiceImpl;
 import org.apache.pluto.driver.services.impl.resource.ResourceConfig;

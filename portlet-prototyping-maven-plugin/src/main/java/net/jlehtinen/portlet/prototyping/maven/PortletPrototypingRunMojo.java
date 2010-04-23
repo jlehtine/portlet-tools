@@ -29,8 +29,8 @@ import java.util.List;
 import java.util.Properties;
 import java.util.Set;
 
-import net.jlehtinen.portlet.prototyping.maven.util.PortletXml;
-import net.jlehtinen.portlet.prototyping.maven.util.ReflectionWrapper;
+import net.jlehtinen.portlet.util.PortletXml;
+import net.jlehtinen.portlet.util.ReflectionWrapper;
 
 import org.apache.maven.artifact.Artifact;
 import org.apache.maven.artifact.factory.ArtifactFactory;
