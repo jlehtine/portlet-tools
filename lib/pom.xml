@@ -8,4 +8,12 @@
   <artifactId>portlet-tools-lib</artifactId>
   <name>Portlet Tools Library</name>
   <description>Shared utility classes for portlet tools</description>
+  <build>
+    <testResources>
+        <testResource>
+            <directory>${basedir}/src/test/resources</directory>
+            <filtering>true</filtering>
+        </testResource>
+    </testResources>
+  </build>
 </project>
