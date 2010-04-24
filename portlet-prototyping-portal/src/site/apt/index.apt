@@ -23,9 +23,9 @@
 Portlet Prototyping Portal
 
   Portal that can be used for rapid portlet prototyping together with the
-  {{{http://www.jlehtinen.net/portlet-tools/portlet-prototyping-maven-plugin/}Portlet Prototyping Maven Plugin}}.
+  {{{../portlet-prototyping-maven-plugin/index.html}Portlet Prototyping Maven Plugin}}.
   
-  This plugin is part of the {{{http://www.jlehtinen.net/portlet-tools/}Portlet Tools for Maven}} project.
+  This plugin is part of the {{{../index.html}Portlet Tools for Maven}} project.
   It is a slightly modified version of the {{{http://portals.apache.org/pluto/}Apache Pluto}} portal
   and it has been implemented as a WAR overlay on Apache Pluto portal
   package <pluto-portal> version 2.0.0.  
@@ -52,4 +52,4 @@ Portlet Prototyping Portal
   
 * Feedback
 
-  For feedback, check the {{{http://ww.jlehtinen.net/portlet-tools/}Portlet Tools for Maven}} project.
+  For feedback, check the {{{../index.html}Portlet Tools for Maven}} project.

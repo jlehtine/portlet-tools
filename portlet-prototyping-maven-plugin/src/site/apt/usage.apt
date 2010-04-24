@@ -30,35 +30,8 @@ Usage
 
 * Quick Start
 
-  To quickly try how it works, you can create a demonstration project using
-  the <net.jlehtinen:example-portlet-archetype> archetype available from
-  the <http://repo.jlehtinen.net/maven2/> repository.
-  
-+-------------------------------------------------------------------------
-mvn archetype:create \
-    -DremoteRepositories=http://repo.jlehtinen.net/maven2/ \
-    -DarchetypeGroupId=net.jlehtinen \
-    -DarchetypeArtifactId=example-portlet-archetype \
-    -DgroupId=example \
-    -DartifactId=example-portlet
-+-------------------------------------------------------------------------
-
-  Then execute the {{{run-mojo.html}portlet-prototyping:run}} goal from within the created
-  <example-portlet> project directory.
-
-+-------------------------------------------------------------------------
-mvn portlet-prototyping:run
-+-------------------------------------------------------------------------
-
-  This will start up Jetty and Pluto at local port 8080, so you should be
-  able to contact to the prototyping portlet and the example portlet
-  by browsing to the following address.
-  
-  {{http://localhost:8080/pluto/}}
-
-  You can now edit the example JSPs on the fly and see the changes
-  immediately. You can also manually stop (Ctrl-C) and start the
-  container fairly quickly.
+  For instant quick start, see the
+  {{{../example-portlet-archetype/index.html}Example Portlet Archetype}}.
 
 
 * Repository Configuration

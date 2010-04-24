@@ -36,6 +36,8 @@ Portlet Tools for Maven
     * Run the portlet or portlets being developed directly from a Maven
     source project
     
+    * Supports Portlet 1.0 (JSR-168) and Portlet 2.0 (JSR-286)
+    
     * Edit JSP and other source files on-the-fly without
     time-consuming repeated portlet deployments
 
@@ -59,6 +61,9 @@ Portlet Tools for Maven
     * {{{http://jetty.codehaus.org/jetty/}Jetty WebServer}}
 
     * {{{http://portals.apache.org/pluto/}Apache Pluto}}
+
+  The idea was based on the
+  {{{http://bekkopensource.lighthouseapp.com/projects/22517/home}maven-jetty-pluto-embedded}} plugin.
 
 * Feedback
 

@@ -27,7 +27,7 @@ Portlet Prototyping Maven Plugin
   using the Jetty servlet container and the Apache Pluto portlet container. This
   plugin is intended for rapid portlet development in Maven based projects.
   
-  This plugin is part of the {{{http://www.jlehtinen.net/portlet-tools/}Portlet Tools for Maven}} project.
+  This plugin is part of the {{{../index.html}Portlet Tools for Maven}} project.
   It has been implemented as an extension to the excellent
   {{{http://docs.codehaus.org/display/JETTY/Maven+Jetty+Plugin}Maven Jetty Plugin}}.
   
@@ -37,7 +37,7 @@ Portlet Prototyping Maven Plugin
 
     * {{{http://portals.apache.org/pluto/}Apache Pluto}}
 
-  This plugin uses a {{{http://www.jlehtinen.net/portlet-tools/portlet-prototyping-portal/}modified version of the Apache Pluto portal}} as the prototyping portal.
+  This plugin uses a {{{../portlet-prototyping-portal/index.html}modified version of the Apache Pluto portal}} as the prototyping portal.
 
 * Goals Overview
 
@@ -51,4 +51,4 @@ Portlet Prototyping Maven Plugin
 
 * Feedback
 
-  For feedback, check the {{{http://ww.jlehtinen.net/portlet-tools/}Portlet Tools for Maven}} project.
+  For feedback, check the {{{../index.html}Portlet Tools for Maven}} project.
