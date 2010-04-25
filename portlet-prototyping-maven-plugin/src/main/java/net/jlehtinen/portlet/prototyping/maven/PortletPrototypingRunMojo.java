@@ -61,7 +61,7 @@ import org.mortbay.jetty.webapp.WebAppContext;
 public class PortletPrototypingRunMojo extends Jetty6RunMojo {
 
 	/** Jetty-Pluto group identifier */
-	protected static final String PORTLET_PROTOTYPING_GROUP_ID = "net.jlehtinen";
+	protected static final String PORTLET_PROTOTYPING_GROUP_ID = "net.jlehtinen.portlet";
 	
 	/** Jetty-Pluto portal identifier */
 	protected static final String PORTLET_PROTOTYPING_PORTAL_ID = "portlet-prototyping-portal";
@@ -151,9 +151,9 @@ public class PortletPrototypingRunMojo extends Jetty6RunMojo {
      * 
      * <pre>
      * &lt;portal>
-     *   &lt;groupId>net.jlehtinen&lt;/groupId>
+     *   &lt;groupId>net.jlehtinen.portlet&lt;/groupId>
      *   &lt;artifactId>portlet-prototyping-portal&lt;/artifactId>
-     *   &lt;version>0.2&lt;/version>
+     *   &lt;version>0.4&lt;/version>
      *   &lt;packaging>war&lt;/packaging>
      * &lt;/portal>
      * </pre>
@@ -179,7 +179,7 @@ public class PortletPrototypingRunMojo extends Jetty6RunMojo {
 	 *   &lt;library>
 	 *     &lt;groupId>org.apache.portals.pluto&lt;/groupId>
 	 *     &lt;artifactId>pluto-container-api&lt;/artifactId>
-	 *     &lt;version>2.0.0&lt;/version>
+	 *     &lt;version>2.0.1&lt;/version>
 	 *     &lt;packaging>jar&lt;/packaging>
 	 *   &lt;/library>
 	 *   &lt;library>
@@ -198,7 +198,7 @@ public class PortletPrototypingRunMojo extends Jetty6RunMojo {
 	 * <em>portalLibraries</em>. To use a different version of the Pluto portal,
 	 * you have to specify a portal implementation using the <em>portal</em> parameter.
 	 * 
-	 * @parameter default-value="2.0.0"
+	 * @parameter default-value="2.0.1"
 	 */
 	protected String plutoVersion;
 	

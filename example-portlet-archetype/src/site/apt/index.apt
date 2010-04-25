@@ -36,7 +36,7 @@ Example Portlet Archetype
 +-------------------------------------------------------------------------
 mvn archetype:create \
     -DremoteRepositories=http://repo.jlehtinen.net/maven2/ \
-    -DarchetypeGroupId=net.jlehtinen \
+    -DarchetypeGroupId=net.jlehtinen.portlet \
     -DarchetypeArtifactId=example-portlet-archetype \
     -DgroupId=example \
     -DartifactId=example-portlet

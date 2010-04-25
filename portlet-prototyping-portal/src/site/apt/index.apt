@@ -28,7 +28,7 @@ Portlet Prototyping Portal
   This plugin is part of the {{{../index.html}Portlet Tools for Maven}} project.
   It is a slightly modified version of the {{{http://portals.apache.org/pluto/}Apache Pluto}} portal
   and it has been implemented as a WAR overlay on Apache Pluto portal
-  package <pluto-portal> version 2.0.0.  
+  package <pluto-portal> version 2.0.1.  
 
   The main difference to the original portal is that the displayed custom portlets
   and their context can be configured at runtime using system properties.

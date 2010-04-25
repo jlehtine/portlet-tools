@@ -99,7 +99,7 @@ Usage
     <plugins>
       ...
       <plugin>
-        <groupId>net.jlehtinen</groupId>
+        <groupId>net.jlehtinen.portlet</groupId>
         <artifactId>portlet-prototyping-maven-plugin</artifactId>
         <configuration>
           <portletNames>MyPortlet,OtherPortlet</portletNames>

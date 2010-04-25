@@ -34,10 +34,10 @@ import org.slf4j.LoggerFactory;
  * Customized version of {@link RenderConfigService} that automatically creates a default
  * page for the portlets to be prototyped.
  */
-public class PortletPrototypingRenderConfigService extends RenderConfigServiceImpl {
+public class PortletPrototypingRenderConfigServiceImpl extends RenderConfigServiceImpl {
 
 	/** The logger to use */
-	private static final Logger logger = LoggerFactory.getLogger(PortletPrototypingRenderConfigService.class);
+	private static final Logger logger = LoggerFactory.getLogger(PortletPrototypingRenderConfigServiceImpl.class);
 	
 	/** System property for the portlet context */
 	protected static final String PORTLET_CONTEXT_PATH_PROPERTY = "portletContextPath";
@@ -57,8 +57,15 @@ public class PortletPrototypingRenderConfigService extends RenderConfigServiceIm
 	/** Configuration of the portlet prototyping page */
 	protected PageConfig portletPrototypingPage = null;
 	
-	public void init(ServletContext ctx) {
-		super.init(ctx);
+	public PortletPrototypingRenderConfigServiceImpl(ResourceConfig config) {
+		super(config);
+		addPortletPrototypingPage();
+	}
+
+	/**
+	 * Adds a portlet prototyping page to this RenderConfigService.
+	 */
+	protected void addPortletPrototypingPage() {
 		
 		// Get prototype portlet information
 		logger.info("Configuring Pluto portal for portlet prototyping");
