@@ -14,9 +14,12 @@
 	-->
 <project>
 	<body>
+		<menu name="Parent Project">
+			<item name="Portlet Tools for Maven" href="../index.html" />
+		</menu>
 		<menu name="Overview">
 			<item name="Introduction" href="index.html" />
 		</menu>
-        <menu ref="reports"/>
+		<menu ref="reports" />
 	</body>
 </project>
