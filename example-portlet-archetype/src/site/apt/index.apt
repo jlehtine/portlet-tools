@@ -53,7 +53,7 @@ mvn portlet-prototyping:run
   able to contact to the prototyping portlet and the example portlet
   by browsing to the following address.
   
-  {{http://localhost:8080/pluto/}}
+  <http://localhost:8080/pluto/>
 
   You can now edit the example JSPs on the fly and see the changes
   immediately. You can also manually stop (Ctrl-C) and start the
