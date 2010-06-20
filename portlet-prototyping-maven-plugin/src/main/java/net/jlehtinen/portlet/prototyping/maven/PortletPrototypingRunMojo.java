@@ -153,7 +153,7 @@ public class PortletPrototypingRunMojo extends Jetty6RunMojo {
      * &lt;portal>
      *   &lt;groupId>net.jlehtinen.portlet&lt;/groupId>
      *   &lt;artifactId>portlet-prototyping-portal&lt;/artifactId>
-     *   &lt;version>0.4&lt;/version>
+     *   &lt;version>0.5&lt;/version>
      *   &lt;packaging>war&lt;/packaging>
      * &lt;/portal>
      * </pre>
@@ -179,7 +179,7 @@ public class PortletPrototypingRunMojo extends Jetty6RunMojo {
 	 *   &lt;library>
 	 *     &lt;groupId>org.apache.portals.pluto&lt;/groupId>
 	 *     &lt;artifactId>pluto-container-api&lt;/artifactId>
-	 *     &lt;version>2.0.1&lt;/version>
+	 *     &lt;version>2.0.2&lt;/version>
 	 *     &lt;packaging>jar&lt;/packaging>
 	 *   &lt;/library>
 	 *   &lt;library>
@@ -198,7 +198,7 @@ public class PortletPrototypingRunMojo extends Jetty6RunMojo {
 	 * <em>portalLibraries</em>. To use a different version of the Pluto portal,
 	 * you have to specify a portal implementation using the <em>portal</em> parameter.
 	 * 
-	 * @parameter default-value="2.0.1"
+	 * @parameter default-value="2.0.2"
 	 */
 	protected String plutoVersion;
 	

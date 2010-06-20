@@ -29,6 +29,12 @@
   <description>Provides an example of a portlet project and how to use Portlet Tools for Maven</description>
   <url>http://www.jlehtinen.net/portlet-tools/example-portlet-archetype/</url>
   <build>
+    <resources>
+        <resource>
+            <directory>${basedir}/src/main/resources</directory>
+            <filtering>true</filtering>
+        </resource>
+    </resources>
     <extensions>
         <extension>
             <groupId>org.apache.maven.archetype</groupId>
