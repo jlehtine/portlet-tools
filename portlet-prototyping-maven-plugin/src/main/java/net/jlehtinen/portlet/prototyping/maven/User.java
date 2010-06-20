@@ -33,7 +33,7 @@ public class User implements Principal {
 	/** User password in plaintext */
 	protected String password;
 	
-	/** User roles as a comma and white-space separated string */
+	/** User roles as a comma separated string */
 	protected String roles;
 	
 	/** User roles as a set */

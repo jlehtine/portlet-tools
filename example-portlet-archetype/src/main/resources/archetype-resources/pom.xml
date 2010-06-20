@@ -6,6 +6,7 @@
   <name>Example Portlet Project</name>
   <version>${version}</version>
   <packaging>war</packaging>
+  <description>Example of a portlet project and how to use Portlet Tools for Maven</description>
   
   <!-- Repositories for dependencies -->
   <repositories>
@@ -41,7 +42,7 @@
     
   </pluginRepositories>
   
-  <!-- Dependencies (Portlet and JSTL APIs) -->
+  <!-- Dependencies for the portlet (Portlet and JSTL APIs) -->
   <dependencies>
 	<dependency>
   		<groupId>org.apache.portals</groupId>
@@ -59,17 +60,22 @@
   </dependencies>
   
   <!-- Plugin configuration -->
-  <description>Example of a portlet project and how to use Portlet Tools for Maven</description>
   <build>
     <plugins>
         <plugin>
             <groupId>net.jlehtinen.portlet</groupId>
             <artifactId>portlet-prototyping-maven-plugin</artifactId>
+            <version>${project.version}</version>
             <configuration>
                 <portletNames>example-portlet</portletNames>
             </configuration>
         </plugin>
     </plugins>
   </build>
+
+  <!-- Project properties -->
+  <properties>
+    <build.sourceEncoding>UTF-8</build.sourceEncoding>
+  </properties>
   
 </project>
