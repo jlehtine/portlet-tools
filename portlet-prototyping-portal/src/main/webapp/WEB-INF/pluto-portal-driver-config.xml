@@ -29,7 +29,7 @@ used for rapid portlet development.
     version="1.1">
 
   <portal-name>pluto-portal-driver</portal-name>
-  <portal-version>2.0.1</portal-version>
+  <portal-version>2.0.2</portal-version>
   <container-name>Pluto Portal Driver</container-name>
 
   <supports>
