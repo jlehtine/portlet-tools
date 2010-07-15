@@ -68,7 +68,7 @@
             <version>${project.version}</version>
             <configuration>
             
-                <!-- Comma-separated list of portlets to be prototyped, default is all portlets -->
+                <!-- Comma-separated list of portlets to be prototyped -->
                 <portletNames>example-portlet</portletNames>
                 
                 <!-- To use custom CSS in the portal -->
