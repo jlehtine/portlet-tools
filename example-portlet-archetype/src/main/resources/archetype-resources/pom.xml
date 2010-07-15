@@ -67,7 +67,26 @@
             <artifactId>portlet-prototyping-maven-plugin</artifactId>
             <version>${project.version}</version>
             <configuration>
+            
+                <!-- Comma-separated list of portlets to be prototyped, default is all portlets -->
                 <portletNames>example-portlet</portletNames>
+                
+                <!-- To use custom CSS in the portal -->
+                <!--
+                <cssUrls>
+                  <url>http://my.server/custom.css</url>
+                  <url>http://my.server/another.css</url>
+                </cssUrls> 
+                -->
+                
+                <!-- To use custom Javascript in the portal -->
+                <!--
+                <jsUrls>
+                  <url>http://my.server/custom.js</url>
+                  <url>http://my.server/another.js</url>
+                </jsUrls> 
+                -->
+                
             </configuration>
         </plugin>
     </plugins>
