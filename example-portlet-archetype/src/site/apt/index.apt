@@ -34,13 +34,12 @@ Example Portlet Archetype
   the <http://repo.jlehtinen.net/maven2/> repository.
 
 +-------------------------------------------------------------------------
-mvn archetype:generate \
+mvn archetype:create \
     -DremoteRepositories=http://repo.jlehtinen.net/maven2/ \
     -DarchetypeGroupId=net.jlehtinen.portlet \
     -DarchetypeArtifactId=example-portlet-archetype \
     -DgroupId=example \
-    -DartifactId=example-portlet \
-    -Dversion=1.0
+    -DartifactId=example-portlet
 +-------------------------------------------------------------------------
 
   Then execute the {{{../portlet-prototyping-maven-plugin/run-mojo.html}portlet-prototyping:run}} goal from within the created
