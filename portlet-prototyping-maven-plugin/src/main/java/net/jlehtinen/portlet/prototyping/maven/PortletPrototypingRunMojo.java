@@ -75,6 +75,12 @@ public class PortletPrototypingRunMojo extends Jetty6RunMojo {
 	/** System property for the portlet context */
 	protected static final String PORTLET_CONTEXT_PATH_PROPERTY = "portletContextPath";
 	
+	/** System property for custom CSS URLs */
+	protected static final String CSS_URLS_PROPERTY = "cssUrls";
+	
+	/** System property for custom Javascript URLs */
+	protected static final String JS_URLS_PROPERTY = "jsUrls";
+	
 	/** Path to properties file containing version information */
 	protected static final String VERSION_PROPERTIES_PATH = "/net/jlehtinen/portlet/prototyping/maven/version.properties";
 	
@@ -208,6 +214,48 @@ public class PortletPrototypingRunMojo extends Jetty6RunMojo {
 	 * @parameter default-value="/pluto"
 	 */
 	protected String plutoContextPath;
+	
+	/**
+	 * <p>List of URLs for CSS files to be included in the portal. CSS files can
+	 * also be specified at runtime by setting the <em>cssUrls</em> property
+	 * to a semicolon (";") separated list of URLs.</p>
+	 * 
+	 * <p>By default some Pluto-specific CSS files are included by the portal.
+	 * Any CSS URLs specified override the default CSS files.</p>
+	 * 
+	 * <p>The following example shows how to use custom CSS files.</p>
+	 * 
+	 * <pre>
+	 * &lt;cssUrls>
+	 *   &lt;url>http://my.server/custom.css&lt;/url>
+	 *   &lt;url>http://my.server/another.css&lt;/url>
+	 * &lt;/cssUrls>
+	 * </pre>
+	 * 
+	 * @parameter
+	 */
+	protected List<String> cssUrls;
+	
+	/**
+	 * <p>List of URLs for Javascript files to be included in the portal. Javascript files can
+	 * also be specified at runtime by setting the <em>jsUrls</em> property
+	 * to a semicolon (";") separated list of URLs.</p> 
+	 * 
+	 * <p>By default some Pluto-specific Javascript is included by the portal.
+	 * Any Javascript URLs specified override the default Javascript.</p>
+	 * 
+	 * <p>The following example shows how to use custom Javascript files.</p>
+	 * 
+	 * <pre>
+	 * &lt;jsUrls>
+	 *   &lt;url>http://my.server/custom.js&lt;/url>
+	 *   &lt;url>http://my.server/another.js&lt;/url>
+	 * &lt;/jsUrls>
+	 * </pre>
+	 * 
+	 * @parameter
+	 */
+	protected List<String> jsUrls;
 
 	/**
 	 * <p>List of users to be added in the user realm. By default a single user <em>pluto</em>
@@ -450,7 +498,7 @@ public class PortletPrototypingRunMojo extends Jetty6RunMojo {
 		// Pass the context path onwards in a system parameter
 		System.setProperty(PORTLET_CONTEXT_PATH_PROPERTY, getContextPath());
 		
-		// Pass the portlet identifiers onwards in a system property
+		// Pass the portlet identifiers to the portal in a system property
 		if (System.getProperty(PORTLET_NAMES_PROPERTY) == null) {
 			
 			// Use portlet names from portlet.xml if not specified
@@ -462,6 +510,13 @@ public class PortletPrototypingRunMojo extends Jetty6RunMojo {
 			// Set the system property
 			System.setProperty(PORTLET_NAMES_PROPERTY, portletNames);
 		}
+		
+		// Pass any CSS URLs to the portal in a system property
+		urlsToProperty(cssUrls, CSS_URLS_PROPERTY);
+
+		// Pass any Javascript URLs to the portal in a system property
+		urlsToProperty(jsUrls, JS_URLS_PROPERTY);
+		
 	}
 	
 	/**
@@ -501,6 +556,25 @@ public class PortletPrototypingRunMojo extends Jetty6RunMojo {
 			namesBuf.append(name);
 		}
 		return namesBuf.toString();
+	}
+
+	/**
+	 * Converts a list of URLs to a semicolon separated property string value.
+	 * 
+	 * @param urls list of urls
+	 * @param property property name
+	 */
+	protected void urlsToProperty(List<String> urls, String property) {
+		if (System.getProperty(property) == null && urls != null) {
+			StringBuilder sb = new StringBuilder();
+			for (String url : urls) {
+				if (sb.length() > 0) {
+					sb.append(';');
+				}
+				sb.append(url.toString());
+			}
+			System.setProperty(property, sb.toString());
+		}		
 	}
 	
     /**
