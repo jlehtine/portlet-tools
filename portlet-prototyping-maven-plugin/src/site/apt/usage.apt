@@ -55,7 +55,7 @@ Usage
   <!-- Central repository -->
   <repository>
     <id>central</id>
-    <url>http://repo1.maven.org/maven2/</url>
+    <url>http://repo.maven.apache.org/maven2/</url>
   </repository>
 
   <!-- jlehtinen.net repository -->
@@ -72,7 +72,7 @@ Usage
   <!-- Central repository -->
   <pluginRepository>
     <id>central</id>
-    <url>http://repo1.maven.org/maven2/</url>
+    <url>http://repo.maven.apache.org/maven2/</url>
   </pluginRepository>
 
   <!-- jlehtinen.net repository -->
