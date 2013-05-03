@@ -39,6 +39,26 @@
 			<distribution>repo</distribution>
 		</license>
 	</licenses>
+	<repositories>
+		<repository>
+			<id>jlehtinen.net</id>
+			<url>http://repo.jlehtinen.net/maven2</url>
+		</repository>
+		<repository>
+			<id>central</id>
+			<url>http://repo.maven.apache.org/maven2</url>
+		</repository>
+	</repositories>
+	<pluginRepositories>
+		<pluginRepository>
+			<id>jlehtinen.net</id>
+			<url>http://repo.jlehtinen.net/maven2</url>
+		</pluginRepository>
+		<pluginRepository>
+			<id>central</id>
+			<url>http://repo.maven.apache.org/maven2</url>
+		</pluginRepository>
+	</pluginRepositories>
 	<scm>
 		<connection>scm:svn:http://svn.jlehtinen.net/svn/portlet-tools/trunk</connection>
 		<developerConnection>scm:svn:http://svn.jlehtinen.net/svn/portlet-tools/trunk</developerConnection>
