@@ -184,6 +184,6 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <servlet-api.version>2.5</servlet-api.version>
-        <pluto.version>2.0.2</pluto.version>
+        <pluto.version>2.1.0-M3</pluto.version>
     </properties>
 </project>
