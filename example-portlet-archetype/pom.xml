@@ -21,7 +21,7 @@
   <parent>
     <artifactId>portlet-tools</artifactId>
     <groupId>net.jlehtinen.portlet</groupId>
-    <version>0.9</version>
+    <version>0.10-SNAPSHOT</version>
   </parent>
   <artifactId>example-portlet-archetype</artifactId>
   <packaging>maven-archetype</packaging>

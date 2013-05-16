@@ -16,7 +16,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>net.jlehtinen.portlet</groupId>
 	<artifactId>portlet-tools</artifactId>
-	<version>0.9</version>
+	<version>0.10-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name>Portlet Tools for Maven</name>
 	<description>
@@ -60,8 +60,8 @@
 		</pluginRepository>
 	</pluginRepositories>
 	<scm>
-		<connection>scm:svn:http://svn.jlehtinen.net/svn/portlet-tools/tags/portlet-tools-0.9</connection>
-		<developerConnection>scm:svn:http://svn.jlehtinen.net/svn/portlet-tools/tags/portlet-tools-0.9</developerConnection>
+		<connection>scm:svn:http://svn.jlehtinen.net/svn/portlet-tools/trunk</connection>
+		<developerConnection>scm:svn:http://svn.jlehtinen.net/svn/portlet-tools/trunk</developerConnection>
 	</scm>
 	<distributionManagement>
 	    <downloadUrl>http://repo.jlehtinen.net/maven2/</downloadUrl>
