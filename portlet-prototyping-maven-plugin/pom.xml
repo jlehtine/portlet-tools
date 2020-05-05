@@ -32,7 +32,6 @@
 	   using the Jetty servlet container and the Apache Pluto portlet container. This
 	   plugin is intended for rapid portlet development in Maven based projects.
 	</description>
-	<url>http://www.jlehtinen.net/portlet-tools/portlet-prototyping-maven-plugin/</url>
 	<build>
         <resources>
             <resource>
@@ -40,20 +39,6 @@
                 <filtering>true</filtering>
             </resource>
         </resources>
-		<plugins>
-			<plugin>
-				<groupId>org.ops4j</groupId>
-				<artifactId>maven-inherit-plugin</artifactId>
-				<version>1.5</version>
-				<executions>
-					<execution>
-						<goals>
-							<goal>inherit</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-		</plugins>
 	</build>
 	<reporting>
 		<plugins>

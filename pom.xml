@@ -30,7 +30,6 @@
 		<module>example-portlet-archetype</module>
 		<module>lib</module>
 	</modules>
-	<url>http://www.jlehtinen.net/portlet-tools/</url>
 	<inceptionYear>2010</inceptionYear>
 	<licenses>
 		<license>
@@ -39,41 +38,9 @@
 			<distribution>repo</distribution>
 		</license>
 	</licenses>
-	<repositories>
-		<repository>
-			<id>jlehtinen.net</id>
-			<url>http://repo.jlehtinen.net/maven2</url>
-		</repository>
-		<repository>
-			<id>central</id>
-			<url>http://repo.maven.apache.org/maven2</url>
-		</repository>
-	</repositories>
-	<pluginRepositories>
-		<pluginRepository>
-			<id>jlehtinen.net</id>
-			<url>http://repo.jlehtinen.net/maven2</url>
-		</pluginRepository>
-		<pluginRepository>
-			<id>central</id>
-			<url>http://repo.maven.apache.org/maven2</url>
-		</pluginRepository>
-	</pluginRepositories>
 	<scm>
-		<connection>scm:svn:http://svn.jlehtinen.net/svn/portlet-tools/trunk</connection>
-		<developerConnection>scm:svn:http://svn.jlehtinen.net/svn/portlet-tools/trunk</developerConnection>
+		<connection>scm:git:git://github.com/jlehtine/portlet-tools</connection>
 	</scm>
-	<distributionManagement>
-	    <downloadUrl>http://repo.jlehtinen.net/maven2/</downloadUrl>
-		<repository>
-			<id>jlehtinen.net</id>
-			<url>scp://jlehtinen.net/home/jlehtine/repo.jlehtinen.net/maven2/</url>
-		</repository>
-		<site>
-			<id>jlehtinen.net</id>
-			<url>scp://jlehtinen.net/home/jlehtine/jlehtinen.net/portlet-tools/</url>
-		</site>
-	</distributionManagement>
 	<developers>
 		<developer>
 			<id>jle</id>
@@ -151,7 +118,7 @@
 	           <plugin>
 	               <groupId>org.apache.maven.plugins</groupId>
 	               <artifactId>maven-site-plugin</artifactId>
-	               <version>3.2</version>
+	               <version>3.9.0</version>
 	           </plugin>
 	           <plugin>
 	               <groupId>org.apache.maven.plugins</groupId>

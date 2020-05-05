@@ -27,7 +27,6 @@
   <packaging>maven-archetype</packaging>
   <name>Example Portlet Archetype</name>
   <description>Provides an example of a portlet project and how to use Portlet Tools for Maven</description>
-  <url>http://www.jlehtinen.net/portlet-tools/example-portlet-archetype/</url>
   <build>
     <resources>
         <resource>
